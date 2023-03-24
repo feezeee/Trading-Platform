@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Users.Domain.Contracts;
+using Users.Persistence;
 
 namespace Users.Infrastructure.Configurations.Dependencies
 {

@@ -1,6 +1,6 @@
 ﻿using Users.Domain.Contracts.Repositories;
 
-namespace Users.Infrastructure.Repositories
+namespace Users.Persistence.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {

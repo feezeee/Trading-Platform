@@ -1,6 +1,6 @@
 ﻿using Users.Domain.Contracts;
 
-namespace Users.Infrastructure
+namespace Users.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -13,7 +13,7 @@ namespace Users.Infrastructure
 
         public Task<int> SaveChangesAsync(CancellationToken token = default)
         {
-            return _userContext.SaveChanges(token);
+            return _userContext.SaveChangesAsync(token);
         }
     }
 }

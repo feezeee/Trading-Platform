@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Users.Domain.Entities;
-using Users.Infrastructure.Configurations.ModelBuilderConfig;
+using Users.Persistence.Configurations.ModelBuilderConfig;
 
-namespace Users.Infrastructure
+namespace Users.Persistence
 {
     public class UserContext : DbContext
     {

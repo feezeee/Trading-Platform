@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Users.Domain.Entities;
 
-namespace Users.Infrastructure.Configurations.ModelBuilderConfig
+namespace Users.Persistence.Configurations.ModelBuilderConfig
 {
     internal static partial class Configuration
     {

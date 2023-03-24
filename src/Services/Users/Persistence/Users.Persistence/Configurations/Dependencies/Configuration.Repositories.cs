@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Users.Domain.Contracts.Repositories;
-using Users.Infrastructure.Repositories;
+using Users.Persistence.Repositories;
 
 namespace Users.Infrastructure.Configurations.Dependencies
 {

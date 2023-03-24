@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Users.Domain.Contracts.Findres;
-using Users.Infrastructure.Finders;
+using Users.Persistence.Finders;
 
 namespace Users.Infrastructure.Configurations.Dependencies
 {

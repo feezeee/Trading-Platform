@@ -2,7 +2,7 @@
 using Users.Domain.Contracts.Findres;
 using Users.Domain.Entities;
 
-namespace Users.Infrastructure.Finders
+namespace Users.Persistence.Finders
 {
     public class UserFinder : IUserFinder
     {

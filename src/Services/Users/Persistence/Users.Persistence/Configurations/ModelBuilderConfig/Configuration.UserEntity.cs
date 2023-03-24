@@ -44,6 +44,12 @@ namespace Users.Persistence.Configurations.ModelBuilderConfig
             entityTypeBuilder
                 .Property(t => t.PhoneNumber)
                 .IsRequired(false);
+
+
+            // Todo add default value sql 'utcnow'
+            entityTypeBuilder
+                .Property(t => t.RegistrationDate)
+                .IsRequired();
         }
     }
 }

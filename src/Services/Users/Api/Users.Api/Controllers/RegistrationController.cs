@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Users.Api.Models.Request.User;
+using Users.Api.Models.Request.Registration;
 
 namespace Users.Api.Controllers
 {
@@ -18,7 +18,9 @@ namespace Users.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Registrate([FromBody] RegistrateUserRequest user, CancellationToken token)
+        public async Task<IActionResult> Registrate(
+            [FromBody] RegistrateUserRequest user, 
+            CancellationToken token = default)
         {
             try
             {

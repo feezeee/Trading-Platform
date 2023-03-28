@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Api.Models.Request.Authorization;
-using Users.Api.Models.Response.Token;
+using Users.Application.Features.Users.Commands.AuthorizeUser;
+using Users.Models.Exceptions;
 
 namespace Users.Api.Controllers
 {
@@ -10,19 +13,33 @@ namespace Users.Api.Controllers
     public class AuthorizationController : ControllerBase
     {
         private readonly ILogger<AuthorizationController> _logger;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public AuthorizationController(ILogger<AuthorizationController> logger)
+        public AuthorizationController(ILogger<AuthorizationController> logger, IMediator mediator, IMapper mapper)
         {
             _logger = logger;
+            _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<GetTokenResponse>> Authorize([FromBody] AuthorizeUserRequest authorizeUserRequest, CancellationToken token)
+        public async Task<IActionResult> Authorize(
+            [FromBody] AuthorizeUserRequest authorizeUserRequest, 
+            CancellationToken token = default)
         {
             try
             {
-                return Ok();
+                var command = _mapper.Map<AuthorizeUserCommand>(authorizeUserRequest);
+
+                var tokenDto = await _mediator.Send(command, token);
+                return Ok(tokenDto);
+            }
+            catch (UserNotFoundException e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
             }
             catch (Exception e)
             {

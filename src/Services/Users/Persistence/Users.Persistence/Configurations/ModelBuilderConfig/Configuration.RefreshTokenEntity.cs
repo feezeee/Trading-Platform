@@ -6,7 +6,7 @@ namespace Users.Persistence.Configurations.ModelBuilderConfig
 {
     internal static partial class Configuration
     {
-        internal static void SetUp(this EntityTypeBuilder<UserEntity> entityTypeBuilder)
+        internal static void SetUp(this EntityTypeBuilder<RefreshTokenEntity> entityTypeBuilder)
         {
             entityTypeBuilder
                 .HasKey(t => t.Id);
@@ -15,36 +15,32 @@ namespace Users.Persistence.Configurations.ModelBuilderConfig
                 .ValueGeneratedNever();
 
             entityTypeBuilder
-                .Property(t => t.FirstName)
+                .Property(t => t.RefreshToken)
                 .IsRequired();
-
-            entityTypeBuilder
-                .Property(t => t.LastName)
-                .IsRequired();
-
-            entityTypeBuilder
-                .Property(t => t.Nickname)
-                .IsRequired();
-
-            entityTypeBuilder
-                .HasIndex(t => t.Nickname)
-                .IsUnique();
-
-           
-
-            entityTypeBuilder
-                .Property(t => t.Password)
-                .IsRequired();
-
             
             entityTypeBuilder
-                .Property(t => t.RegistrationDate)
-                .HasDefaultValueSql("getutcdate()")
+                .Property(t => t.Created)
                 .IsRequired();
 
             entityTypeBuilder
-                .HasMany(t => t.Roles)
-                .WithMany(t => t.Users);
+                .Property(t => t.Expires)
+                .IsRequired();
+
+            entityTypeBuilder
+                .Property(t => t.UserId)
+                .IsRequired();
+
+            entityTypeBuilder
+                .Ignore(t => t.IsActive);
+            entityTypeBuilder
+                .Ignore(t => t.IsExpired);
+
+            entityTypeBuilder
+                .HasOne(t => t.User)
+                .WithMany(t => t.RefreshTokens)
+                .HasForeignKey(t => t.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

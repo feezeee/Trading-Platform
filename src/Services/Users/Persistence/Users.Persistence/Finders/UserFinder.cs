@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Users.Domain.Contracts.Findres;
+using Users.Domain.Contracts.Finders;
 using Users.Domain.Entities;
 
 namespace Users.Persistence.Finders
@@ -19,15 +19,15 @@ namespace Users.Persistence.Finders
             return data.AsQueryable();
         }
 
-        public Task<UserEntity?> GetUserAsync(string email, string password, CancellationToken token = default)
+        public Task<UserEntity?> GetByNicknameAndPasswordAsync(string nickName, string password, CancellationToken token = default)
         {
             var user = AsQueryable()
                 .TagWith("Get user by email and password")
-                .FirstOrDefaultAsync(t => t.Email.ToLower() == email.ToLower() && t.Password == password);
+                .FirstOrDefaultAsync(t => t.Nickname.ToLower() == nickName.ToLower() && t.Password == password, token);
             return user;
         }
 
-        public Task<List<UserEntity>> GetUsersAsync(CancellationToken token = default)
+        public Task<List<UserEntity>> GetAllAsync(CancellationToken token = default)
         {
             var users = AsQueryable()
                 .TagWith("Get users")

@@ -1,27 +1,26 @@
 ﻿using AutoMapper;
 using MediatR;
-using Users.Application.Features.Users.Queries.GetUsersList;
-using Users.Domain.Contracts.Findres;
+using Users.Domain.Contracts.Finders;
 using Users.Models.Users;
 
-namespace Ordering.Application.Features.Orders.Queries.GetOrderList
+namespace Users.Application.Features.Users.Queries.GetUserList
 {
-    public class GetUsersListQueryHandler : IRequestHandler<GetUsersListQuery, List<GetUserDto>>
+    public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, List<GetUserDto>>
     {
         private readonly IUserFinder _userFinder;
         private readonly IMapper _mapper;
 
-        public GetUsersListQueryHandler(IUserFinder userFinder, IMapper mapper)
+        public GetUserListQueryHandler(IUserFinder userFinder, IMapper mapper)
         {
             _userFinder = userFinder;
             _mapper = mapper;
         }
 
         public async Task<List<GetUserDto>> Handle(
-            GetUsersListQuery request,
+            GetUserListQuery request,
             CancellationToken cancellationToken)
         {
-            var users = await _userFinder.GetUsersAsync(cancellationToken);
+            var users = await _userFinder.GetAllAsync(cancellationToken);
             var mappedUsers = _mapper.Map<List<GetUserDto>>(users);
             return mappedUsers;
         }

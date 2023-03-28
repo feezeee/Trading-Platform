@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Users.Api.Models.Request.User
+namespace Users.Api.Models.Request.Registration
 {
     public class RegistrateUserRequest
     {
@@ -14,9 +14,9 @@ namespace Users.Api.Models.Request.User
         [BindRequired]
         [Required]
         public string LastName { get; set; } = string.Empty;
-        [JsonPropertyName("nick_name")]
+        [JsonPropertyName("nickname")]
         [BindRequired]
         [Required]
-        public string NickName { get; set; } = string.Empty;
+        public string Nickname { get; set; } = string.Empty;
     }
 }

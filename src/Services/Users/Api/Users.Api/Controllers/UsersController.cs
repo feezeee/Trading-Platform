@@ -1,6 +1,7 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Users.Application.Features.Users.Queries.GetUsersList;
+using Users.Application.Features.Users.Queries.GetUserList;
 
 namespace Users.Api.Controllers
 {
@@ -18,11 +19,12 @@ namespace Users.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers(CancellationToken token)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUsers(CancellationToken token = default)
         {
             try
             {
-                var getUsers = new GetUsersListQuery();
+                var getUsers = new GetUserListQuery();
                 var users = await _mediator.Send(getUsers, token);
                 return Ok(users);
             }

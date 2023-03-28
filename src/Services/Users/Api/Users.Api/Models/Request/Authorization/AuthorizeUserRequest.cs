@@ -6,10 +6,10 @@ namespace Users.Api.Models.Request.Authorization
 {
     public class AuthorizeUserRequest
     {
-        [JsonPropertyName("email")]
+        [JsonPropertyName("nickname")]
         [BindRequired]
         [Required]
-        public string Email { get; set; } = string.Empty;
+        public string Nickname { get; set; } = string.Empty;
         [JsonPropertyName("password")]
         [BindRequired]
         [Required]

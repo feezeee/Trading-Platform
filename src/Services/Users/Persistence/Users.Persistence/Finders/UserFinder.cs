@@ -26,5 +26,13 @@ namespace Users.Persistence.Finders
                 .FirstOrDefaultAsync(t => t.Email.ToLower() == email.ToLower() && t.Password == password);
             return user;
         }
+
+        public Task<List<UserEntity>> GetUsersAsync(CancellationToken token = default)
+        {
+            var users = AsQueryable()
+                .TagWith("Get users")
+                .ToListAsync(token);
+            return users;
+        }
     }
 }

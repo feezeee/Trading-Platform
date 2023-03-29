@@ -1,6 +1,7 @@
-﻿using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using Users.Application.Utils.PasswordEncrypter;
+using Users.Application.Utils.PasswordEncryptor;
 using Users.Application.Utils.TokenGenerator;
 
 namespace Users.Application
@@ -11,7 +12,7 @@ namespace Users.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(t => t.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-            services.AddScoped<IPasswordEncrypter, PasswordEncrypter>();
+            services.AddScoped<IPasswordEncryptor, PasswordEncryptor>();
             services.AddScoped<ITokenGenerator, TokenGenerator>();
 
             return services;

@@ -26,7 +26,7 @@ namespace Users.Api.Controllers
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Authorize(
-            [FromBody] AuthorizeUserRequest authorizeUserRequest, 
+            [FromBody] AuthorizeUserRequest authorizeUserRequest,
             CancellationToken token = default)
         {
             try

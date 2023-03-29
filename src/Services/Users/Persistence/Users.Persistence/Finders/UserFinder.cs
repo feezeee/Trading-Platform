@@ -34,5 +34,13 @@ namespace Users.Persistence.Finders
                 .ToListAsync(token);
             return users;
         }
+
+        public Task<bool> HasAnyByNicknameAsync(string nickname, CancellationToken token = default)
+        {
+            var existAny = AsQueryable()
+                .TagWith("Has any user by nickname")
+                .AnyAsync(t => t.Nickname.ToLower() == nickname.ToLower(), token);
+            return existAny;
+        }
     }
 }

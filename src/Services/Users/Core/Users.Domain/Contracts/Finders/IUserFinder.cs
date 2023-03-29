@@ -6,5 +6,7 @@ namespace Users.Domain.Contracts.Finders
     {
         public Task<UserEntity?> GetByNicknameAndPasswordAsync(string nickname, string password, CancellationToken token = default);
         public Task<List<UserEntity>> GetAllAsync(CancellationToken token = default);
+
+        public Task<bool> HasAnyByNicknameAsync(string nickname, CancellationToken token = default);
     }
 }

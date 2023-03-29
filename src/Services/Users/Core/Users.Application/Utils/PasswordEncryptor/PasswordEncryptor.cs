@@ -1,6 +1,8 @@
-﻿namespace Users.Application.Utils.PasswordEncrypter
+﻿using Users.Application.Utils.PasswordEncryptor;
+
+namespace Users.Application.Utils.PasswordEncrypter
 {
-    public class PasswordEncrypter : IPasswordEncrypter
+    public class PasswordEncryptor : IPasswordEncryptor
     {
         public string GeneratePassword(string password)
         {

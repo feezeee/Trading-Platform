@@ -1,13 +1,9 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Users.Domain.Entities;
 using Users.Models.Options;
-using Users.Models.Tokens;
-using Users.Models.Users;
 
 namespace Users.Application.Utils.TokenGenerator
 {

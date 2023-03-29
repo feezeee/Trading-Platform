@@ -17,7 +17,7 @@ namespace Users.Persistence.Configurations.ModelBuilderConfig
             entityTypeBuilder
                 .Property(t => t.RefreshToken)
                 .IsRequired();
-            
+
             entityTypeBuilder
                 .Property(t => t.Created)
                 .IsRequired();

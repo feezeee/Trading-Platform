@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Users.Api.Models.Request.Registration
 {
@@ -18,5 +18,9 @@ namespace Users.Api.Models.Request.Registration
         [BindRequired]
         [Required]
         public string Nickname { get; set; } = string.Empty;
+        [JsonPropertyName("password")]
+        [BindRequired]
+        [Required]
+        public string Password { get; set; } = string.Empty;
     }
 }

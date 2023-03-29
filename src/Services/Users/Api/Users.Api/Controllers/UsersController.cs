@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Users.Application.Features.Users.Queries.GetUserList;
+using Users.Application.Features.Users.Queries.GetUserShortList;
 
 namespace Users.Api.Controllers
 {

@@ -30,13 +30,13 @@ namespace Users.Persistence.Configurations.ModelBuilderConfig
                 .HasIndex(t => t.Nickname)
                 .IsUnique();
 
-           
+
 
             entityTypeBuilder
                 .Property(t => t.Password)
                 .IsRequired();
 
-            
+
             entityTypeBuilder
                 .Property(t => t.RegistrationDate)
                 .HasDefaultValueSql("getutcdate()")

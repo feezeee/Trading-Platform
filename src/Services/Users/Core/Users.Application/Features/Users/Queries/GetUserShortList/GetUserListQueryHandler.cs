@@ -3,9 +3,9 @@ using MediatR;
 using Users.Domain.Contracts.Finders;
 using Users.Models.Users;
 
-namespace Users.Application.Features.Users.Queries.GetUserList
+namespace Users.Application.Features.Users.Queries.GetUserShortList
 {
-    public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, List<GetUserDto>>
+    public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, List<GetUserShortDto>>
     {
         private readonly IUserFinder _userFinder;
         private readonly IMapper _mapper;
@@ -16,12 +16,12 @@ namespace Users.Application.Features.Users.Queries.GetUserList
             _mapper = mapper;
         }
 
-        public async Task<List<GetUserDto>> Handle(
+        public async Task<List<GetUserShortDto>> Handle(
             GetUserListQuery request,
             CancellationToken cancellationToken)
         {
             var users = await _userFinder.GetAllAsync(cancellationToken);
-            var mappedUsers = _mapper.Map<List<GetUserDto>>(users);
+            var mappedUsers = _mapper.Map<List<GetUserShortDto>>(users);
             return mappedUsers;
         }
     }

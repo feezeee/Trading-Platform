@@ -1,5 +1,5 @@
-﻿using System.Text;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Users.Models.Options
 {
@@ -7,7 +7,7 @@ namespace Users.Models.Options
     {
         public string Key { get; set; } = string.Empty;
         public double Lifetime { get; set; }
-        
+
 
         public SymmetricSecurityKey GetSymmetricSecurityKey() => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
     }

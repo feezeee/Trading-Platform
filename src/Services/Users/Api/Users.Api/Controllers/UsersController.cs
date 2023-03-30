@@ -2,9 +2,15 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Users.Api.Models.Request.User;
 using Users.Api.Models.Response.User;
+using Users.Application.Features.Users.Commands.UpdateUser;
+using Users.Application.Features.Users.Queries.GetUserFullById;
 using Users.Application.Features.Users.Queries.GetUserFullList;
+using Users.Application.Features.Users.Queries.GetUserShortById;
 using Users.Application.Features.Users.Queries.GetUserShortList;
+using Users.Models.Exceptions;
+using Users.Models.Users;
 
 namespace Users.Api.Controllers
 {
@@ -58,5 +64,78 @@ namespace Users.Api.Controllers
                 return StatusCode(500);
             }
         }
+
+
+        [HttpGet("short-information/{id}")]
+        public async Task<ActionResult<GetUserShortResponse?>> GetUsersShort([FromRoute] Guid id, CancellationToken token = default)
+        {
+            try
+            {
+                var query = new GetUserShortByIdQuery
+                {
+                    Id = id,
+                };
+                var user = await _mediator.Send(query, token);
+
+
+                return Ok(_mapper.Map<GetUserShortResponse?>(user));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet("full-information/{id}")]
+        public async Task<ActionResult<GetUserFullResponse?>> GetUsersFull([FromRoute] Guid id, CancellationToken token = default)
+        {
+            try
+            {
+                var query = new GetUserFullByIdQuery
+                {
+                    Id = id,
+                };
+                var user = await _mediator.Send(query, token);
+
+
+                return Ok(_mapper.Map<GetUserFullResponse?>(user));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return StatusCode(500);
+            }
+        }
+
+
+        [HttpPut]
+        public async Task<ActionResult<GetUserShortResponse>> Update([FromBody] UpdateUserRequest request,
+            CancellationToken token = default)
+        {
+            try
+            {
+                var command = _mapper.Map<UpdateUserCommand>(request);
+                var user = await _mediator.Send(command, token);
+                return Ok(_mapper.Map<GetUserShortDto>(user));
+            }
+            catch (EntityAlreadyExistException e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
+            catch (EntityNotFoundException e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return StatusCode(500);
+            }
+        }
+
+
     }
 }

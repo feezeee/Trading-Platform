@@ -22,6 +22,13 @@ namespace Users.Persistence.Finders
                 .AsQueryable();
         }
 
+        public Task<UserEntity?> GetByIdAsync(Guid id, CancellationToken token = default)
+        {
+            return AsQueryable()
+                .TagWith("Get user by id")
+                .FirstOrDefaultAsync(t => t.Id == id, token);
+        }
+
         public Task<UserEntity?> GetByNicknameAndPasswordAsync(string nickName, string password, CancellationToken token = default)
         {
             var user = AsQueryable()

@@ -3,7 +3,7 @@ using Users.Models.Users;
 
 namespace Users.Application.Features.Users.Queries.GetUserShortList
 {
-    public class GetUserListQuery : IRequest<List<GetUserShortDto>>
+    public class GetUserShortListQuery : IRequest<List<GetUserShortDto>>
     {
 
     }

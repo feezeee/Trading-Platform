@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using Users.Domain.Entities;
 using Users.Models.Options;
 
@@ -41,10 +42,19 @@ namespace Users.Application.Utils.TokenGenerator
 
             var jwt = new JwtSecurityToken(
                 claims: claims,
-                expires: now.AddMinutes(_authOptions.Lifetime),
+                expires: now.AddMinutes(_authOptions.AccessTokenLifetime),
                 signingCredentials: new SigningCredentials(_authOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
+
+        public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
+
         //private RefreshToken GenerateRefreshToken(string ipAddress)
         //{
         //    var randomNumber = new byte[32];

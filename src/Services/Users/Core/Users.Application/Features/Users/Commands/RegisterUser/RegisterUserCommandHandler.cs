@@ -44,13 +44,13 @@ namespace Users.Application.Features.Users.Commands.RegisterUser
                 throw new UserAlreadyExistException($"User with nickname - {request.Nickname} already exists");
             }
 
-            var userRole = await _roleFinder.GetByNameAsync("User", cancellationToken);
+            var userRole = await _roleFinder.GetByNameAsync("user", cancellationToken);
             if (userRole is null)
             {
                 userRole = new RoleEntity
                 {
                     Id = Guid.NewGuid(),
-                    Name = "User"
+                    Name = "user"
                 };
                 _roleRepository.Create(userRole);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);

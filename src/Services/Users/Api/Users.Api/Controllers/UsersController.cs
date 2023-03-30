@@ -19,7 +19,7 @@ namespace Users.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> GetUsers(CancellationToken token = default)
         {
             try

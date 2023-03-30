@@ -16,7 +16,10 @@ namespace Users.Persistence.Finders
         protected IQueryable<UserEntity> AsQueryable()
         {
             var data = _userContext.Users;
-            return data.AsQueryable();
+            return data
+                .Include(t => t.RefreshTokens)
+                .Include(t => t.Roles)
+                .AsQueryable();
         }
 
         public Task<UserEntity?> GetByNicknameAndPasswordAsync(string nickName, string password, CancellationToken token = default)

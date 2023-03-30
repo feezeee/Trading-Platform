@@ -56,12 +56,7 @@ namespace Users.Api.Controllers
                 _logger.LogError(e, e.Message);
                 return BadRequest();
             }
-            catch (RefreshTokenNotFoundException e)
-            {
-                _logger.LogError(e, e.Message);
-                return BadRequest();
-            }
-            catch (UserNotFoundException e)
+            catch (EntityNotFoundException e)
             {
                 _logger.LogError(e, e.Message);
                 return BadRequest();

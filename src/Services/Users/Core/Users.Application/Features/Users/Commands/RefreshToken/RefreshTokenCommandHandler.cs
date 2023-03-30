@@ -43,12 +43,12 @@ namespace Users.Application.Features.Users.Commands.RefreshToken
             var user = await _userFinder.GetByNicknameAsync(request.Nickname, cancellationToken);
             if (user is null)
             {
-                throw new UserNotFoundException($"User with nickname - {request.Nickname} doesn't exist");
+                throw new EntityNotFoundException($"User with nickname - {request.Nickname} doesn't exist");
             }
             var refreshTokenEntity = user.RefreshTokens.FirstOrDefault(t => t.RefreshToken == request.RefreshToken);
             if (refreshTokenEntity is null)
             {
-                throw new RefreshTokenNotFoundException("Refresh token not found");
+                throw new EntityNotFoundException("Refresh token not found");
             }
 
             if (refreshTokenEntity.IsExpired)

@@ -18,6 +18,23 @@ namespace Users.Persistence.Finders
             var data = _userContext.Roles;
             return data.AsQueryable();
         }
+
+        public Task<List<RoleEntity>> GetAllAsync(CancellationToken token = default)
+        {
+            return AsQueryable()
+                .TagWith("Get all roles")
+                .ToListAsync(token);
+        }
+
+        public Task<List<RoleEntity>> GetAllPaginationAsync(int pageNumber, int pageSize, CancellationToken token = default)
+        {
+            return AsQueryable()
+                .TagWith("Get all pagination roles")
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(token);
+        }
+
         public Task<RoleEntity?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             var role = AsQueryable()

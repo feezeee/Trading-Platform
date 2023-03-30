@@ -44,7 +44,7 @@ namespace Users.Application.Features.Users.Commands.AuthorizeUser
             var user = await _userFinder.GetByNicknameAndPasswordAsync(request.Nickname, request.Password, cancellationToken);
             if (user is null)
             {
-                throw new UserNotFoundException("Bad {Nickname} or {Password}");
+                throw new EntityNotFoundException("Bad {Nickname} or {Password}");
             }
 
             foreach (var userRefreshToken in user.RefreshTokens)

@@ -37,7 +37,7 @@ namespace Users.Api.Controllers
                 var tokenDto = await _mediator.Send(command, token);
                 return Ok(_mapper.Map<GetTokenResponse>(tokenDto));
             }
-            catch (UserNotFoundException e)
+            catch (EntityNotFoundException e)
             {
                 _logger.LogError(e, e.Message);
                 return BadRequest();

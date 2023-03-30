@@ -35,7 +35,7 @@ namespace Users.Api.Controllers
                 var getUserShortDto = await _mediator.Send(command, token);
                 return StatusCode(201);
             }
-            catch (UserAlreadyExistException e)
+            catch (EntityAlreadyExistException e)
             {
                 _logger.LogError(e, e.Message);
                 return BadRequest();

@@ -12,7 +12,7 @@ namespace Users.Models.Users
 
         public DateTime RegistrationDate { get; set; }
 
-        public ICollection<GetRolesDto> Roles { get; set; } = new List<GetRolesDto>();
+        public ICollection<GetRoleDto> Roles { get; set; } = new List<GetRoleDto>();
         public ICollection<GetRefreshTokenDto> RefreshTokens { get; set; } = new List<GetRefreshTokenDto>();
 
     }

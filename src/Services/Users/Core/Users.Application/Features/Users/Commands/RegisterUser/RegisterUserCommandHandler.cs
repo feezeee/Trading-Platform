@@ -41,7 +41,7 @@ namespace Users.Application.Features.Users.Commands.RegisterUser
             var existUser = await _userFinder.HasAnyByNicknameAsync(request.Nickname, cancellationToken);
             if (existUser)
             {
-                throw new UserAlreadyExistException($"User with nickname - {request.Nickname} already exists");
+                throw new EntityAlreadyExistException($"User with nickname - {request.Nickname} already exists");
             }
 
             var userRole = await _roleFinder.GetByNameAsync("user", cancellationToken);

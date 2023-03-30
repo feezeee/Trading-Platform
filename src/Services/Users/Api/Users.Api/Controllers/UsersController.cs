@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Api.Models.Request.User;
 using Users.Api.Models.Response.User;
+using Users.Application.Features.Users.Commands.DeleteUser;
 using Users.Application.Features.Users.Commands.UpdateUser;
 using Users.Application.Features.Users.Queries.GetUserFullById;
 using Users.Application.Features.Users.Queries.GetUserFullList;
@@ -136,6 +137,29 @@ namespace Users.Api.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken token = default)
+        {
+            try
+            {
+                var command = new DeleteUserCommand
+                {
+                    Id = id
+                };
+                await _mediator.Send(command, token);
+                return Ok();
+            }
+            catch (EntityNotFoundException e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return StatusCode(500);
+            }
+        }
 
     }
 }

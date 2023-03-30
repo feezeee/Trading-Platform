@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Api.Models.Request.Authorization;
+using Users.Api.Models.Response.Token;
 using Users.Application.Features.Users.Commands.AuthorizeUser;
 using Users.Models.Exceptions;
 
@@ -25,7 +26,7 @@ namespace Users.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Authorize(
+        public async Task<ActionResult<GetTokenResponse>> Authorize(
             [FromBody] AuthorizeUserRequest authorizeUserRequest,
             CancellationToken token = default)
         {
@@ -34,7 +35,7 @@ namespace Users.Api.Controllers
                 var command = _mapper.Map<AuthorizeUserCommand>(authorizeUserRequest);
 
                 var tokenDto = await _mediator.Send(command, token);
-                return Ok(tokenDto);
+                return Ok(_mapper.Map<GetTokenResponse>(tokenDto));
             }
             catch (UserNotFoundException e)
             {

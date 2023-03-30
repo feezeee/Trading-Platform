@@ -1,7 +1,7 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using Users.Application;
 using Users.Models.Options;
 using Users.Persistence;

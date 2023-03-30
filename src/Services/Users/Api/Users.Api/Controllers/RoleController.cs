@@ -7,6 +7,7 @@ using Users.Api.Models.Request.Role;
 using Users.Api.Models.Response.Role;
 using Users.Application.Features.Role.Commands.CreateRole;
 using Users.Application.Features.Role.Commands.DeleteRole;
+using Users.Application.Features.Role.Commands.UpdateRole;
 using Users.Application.Features.Role.Queries.GetRoleById;
 using Users.Application.Features.Role.Queries.GetRoleList;
 using Users.Application.Features.Role.Queries.RoleIsFree;
@@ -115,6 +116,35 @@ namespace Users.Api.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPut]
+        public async Task<ActionResult<GetRoleResponse>> Update(
+            [FromBody] UpdateRoleRequest request,
+            CancellationToken token = default)
+        {
+            try
+            {
+                var command = _mapper.Map<UpdateRoleCommand>(request);
+                var roleDto = await _mediator.Send(command, token);
+                return Ok(_mapper.Map<GetRoleResponse>(roleDto));
+            }
+            catch (EntityNotFoundException e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
+            catch (EntityAlreadyExistException e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return StatusCode(500);
+            }
+        }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken token = default)

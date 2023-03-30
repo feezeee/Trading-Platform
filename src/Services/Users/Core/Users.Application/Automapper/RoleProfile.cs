@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Users.Application.Features.Role.Commands.CreateRole;
+using Users.Application.Features.Role.Commands.UpdateRole;
 using Users.Domain.Entities;
 using Users.Models.Roles;
 
@@ -11,6 +12,7 @@ namespace Users.Application.Automapper
         {
             CreateMap<RoleEntity, GetRoleDto>();
             CreateMap<CreateRoleCommand, RoleEntity>();
+            CreateMap<UpdateRoleCommand, RoleEntity>();
         }
     }
 }

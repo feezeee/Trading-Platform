@@ -10,7 +10,7 @@ namespace Products.Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddScoped<IProductService, ProductService>();
+            services.AddSingleton<IProductService, ProductService>();
             return services;
         }
     }

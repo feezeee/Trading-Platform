@@ -1,3 +1,4 @@
+using System.Reflection;
 using Products.Application;
 using Products.Persistence;
 using Products.Persistence.MongoDatabase.Configurations;
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistence(builder.Configuration.GetSection("DatabaseSettings").Get<MongoDbConfiguration>());
 builder.Services.AddApplicationServices();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -12,9 +12,9 @@ namespace Products.Persistence
     {
         public static IServiceCollection AddPersistence(this IServiceCollection services, MongoDbConfiguration mongoDbOptions)
         {
-            services.AddScoped<IProductContext>(t => new ProductContext(mongoDbOptions));
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductFinder, ProductFinder>();
+            services.AddSingleton<IProductContext>(t => new ProductContext(mongoDbOptions));
+            services.AddSingleton<IProductRepository, ProductRepository>();
+            services.AddSingleton<IProductFinder, ProductFinder>();
             return services;
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Products.Domain.Entities;
 using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Products.Persistence.MongoDatabase.Configurations.EntityConfig
 {

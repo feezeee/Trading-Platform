@@ -1,11 +1,33 @@
 version: '3.4'
 
 services:
+  productsdb:
+    image: mongo:latest
+  
+  usersdb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
   images.api:
     image: ${DOCKER_REGISTRY-}imagesapi
     build:
       context: .
       dockerfile: src/Services/Images/Api/Images.Api/Dockerfile
 
+  # products.api:
+  #   image: ${DOCKER_REGISTRY-}productsapi
+  #   build:
+  #     context: .
+  #     dockerfile: src/Services/Products/Api/Products.Api/Dockerfile
+
+  users.api:
+    image: ${DOCKER_REGISTRY-}usersapi
+    build:
+      context: .
+      dockerfile: src/Services/Users/Api/Users.Api/Dockerfile
+
 volumes:
   image_storage_data:
+  products_data:
+  users_data:
+
+

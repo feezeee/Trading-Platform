@@ -1,11 +1,44 @@
 version: '3.4'
 
 services:
+  usersdb:
+    container_name: usersdb
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=qweQWE_123
+      - MSSQL_PID=Developer
+    expose:
+      - "1433"
+    volumes:
+      - "users_data:/var/opt/mssql"
+
+  
+
   images.api:
     container_name: images.api
+    restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8001:80"
     volumes:
-      - image_storage_data:/app/images
+      - "image_storage_data:/app/images"
+
+  # products.api:
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   ports:
+  #     - "8002:80"
+
+  users.api:
+    container_name: users.api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - UserContextOptions__ConnectionString=Server=usersdb;Database=UserDb;User Id=sa;Password=qweQWE_123;TrustServerCertificate=true;
+    ports:
+      - "8003:80"
+    depends_on:
+      - usersdb
+

@@ -7,7 +7,9 @@
       "composeLaunchServiceName": "images.api",
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
       "serviceActions": {
-        "images.api": "StartDebugging"
+        "images.api": "StartDebugging",
+        "products.api": "StartDebugging",
+        "users.api": "StartDebugging"
       }
     }
   }

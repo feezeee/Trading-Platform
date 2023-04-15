@@ -21,6 +21,11 @@ namespace Products.Api.Models.Products.Request
         [Required]
         public string Description { get; set; } = string.Empty;
 
+        [JsonPropertyName("image_urls")]
+        [BindRequired]
+        [Required]
+        public List<string> ImageUrls { get; set; } = new List<string>();
+
         [JsonPropertyName("phone_numbers")]
         [BindRequired]
         [Required]

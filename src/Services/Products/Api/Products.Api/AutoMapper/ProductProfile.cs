@@ -11,6 +11,7 @@ namespace Products.Api.AutoMapper
         {
             CreateMap<GetProductDto, GetProductResponse>();
             CreateMap<PostProductRequest, CreateProductDto>();
+            CreateMap<PutProductRequest, UpdateProductDto>();
         }
     }
 }

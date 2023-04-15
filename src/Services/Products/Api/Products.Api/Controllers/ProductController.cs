@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Products.Api.Models.Products.Request;
 using Products.Api.Models.Products.Response;
 using Products.Application.Contracts;
+using Products.Exceptions.RecordException;
 using Products.Models.Products;
 
 namespace Products.Api.Controllers
@@ -62,6 +63,43 @@ namespace Products.Api.Controllers
                 var getProduct = _mapper.Map<GetProductResponse>(productCreated);
 
                 return CreatedAtAction(nameof(GetByIdAsync), new {id = productCreated.Id}, getProduct);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync([FromBody] PutProductRequest product,
+            CancellationToken token = default)
+        {
+            try
+            {
+                var updateProduct = _mapper.Map<UpdateProductDto>(product);
+                var productUpdated = await _productService.UpdateAsync(updateProduct, token);
+                return Ok(_mapper.Map<GetProductResponse>(productUpdated));
+            }
+            catch (RecordNotFoundException e)
+            {
+                _logger.LogError(e.Message, e);
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id, CancellationToken token = default)
+        {
+            try
+            {
+                await _productService.DeleteAsync(id, token);
+                return Ok();
             }
             catch (Exception e)
             {

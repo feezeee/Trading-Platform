@@ -5,6 +5,7 @@ using Products.Domain.Contracts.Repositories;
 using Products.Domain.Entities;
 using Products.Models.Products;
 using Products.Exceptions.DbExceptions;
+using Products.Exceptions.RecordException;
 
 namespace Products.Application.Services
 {
@@ -81,6 +82,50 @@ namespace Products.Application.Services
             catch (AutoMapperMappingException)
             {
                 throw;
+            }
+            catch (Exception e)
+            {
+                throw new MyDbException("Some problem with db", e);
+            }
+        }
+
+        public async Task<GetProductDto> UpdateAsync(UpdateProductDto product, CancellationToken token = default)
+        {
+            try
+            {
+                var existProduct = await _productFinder.GetByIdAsync(product.Id, token);
+                if (existProduct is null)
+                {
+                    throw new RecordNotFoundException($"Product with id - {product.Id} not found");
+                }
+
+                _mapper.Map(product, existProduct);
+                await _productRepository.UpdateAsync(existProduct, token);
+                return _mapper.Map<GetProductDto>(existProduct);
+            }
+            catch (RecordNotFoundException)
+            {
+                throw;
+            }
+            catch (AutoMapperConfigurationException)
+            {
+                throw;
+            }
+            catch (AutoMapperMappingException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new MyDbException("Some problem with db", e);
+            }
+        }
+
+        public Task DeleteAsync(Guid id, CancellationToken token = default)
+        {
+            try
+            {
+                return _productRepository.DeleteAsync(id, token);
             }
             catch (Exception e)
             {

@@ -10,6 +10,7 @@ namespace Products.Application.AutoMapper
         {
             CreateMap<ProductEntity, GetProductDto>();
             CreateMap<CreateProductDto, ProductEntity>();
+            CreateMap<UpdateProductDto, ProductEntity>();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Products.Api.Models.Products.Request;
 using Products.Api.Models.Products.Response;
 using Products.Application.Contracts;
+using Products.Models.Products;
 
 namespace Products.Api.Controllers
 {
@@ -27,6 +29,39 @@ namespace Products.Api.Controllers
             {
                 var products = await _productService.GetAllAsync(token);
                 return _mapper.Map<List<GetProductResponse>>(products);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetProductResponse?>> GetByIdAsync([FromRoute(Name = "id")] Guid id, CancellationToken token = default)
+        {
+            try
+            {
+                var product = await _productService.GetByIdAsync(id, token);
+                return _mapper.Map<GetProductResponse?>(product);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromBody] PostProductRequest product, CancellationToken token = default)
+        {
+            try
+            {
+                var createProduct = _mapper.Map<CreateProductDto>(product);
+                var productCreated = await _productService.CreateAsync(createProduct, token);
+                var getProduct = _mapper.Map<GetProductResponse>(productCreated);
+
+                return CreatedAtAction(nameof(GetByIdAsync), new {id = productCreated.Id}, getProduct);
             }
             catch (Exception e)
             {

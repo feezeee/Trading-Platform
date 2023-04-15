@@ -9,6 +9,7 @@ namespace Products.Application.AutoMapper
         public ProfileProfile()
         {
             CreateMap<ProductEntity, GetProductDto>();
+            CreateMap<CreateProductDto, ProductEntity>();
         }
     }
 }

@@ -25,5 +25,10 @@ namespace Products.Persistence.MongoDatabase.Finders
         {
             return AsQueryable().ToListAsync(token);
         }
+
+        public Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken token = default)
+        {
+            return AsQueryable().FirstOrDefaultAsync(t => t.Id == id, token)!;
+        }
     }
 }

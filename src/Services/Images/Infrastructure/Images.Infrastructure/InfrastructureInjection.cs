@@ -1,5 +1,4 @@
 ﻿using Images.Core.Contracts.Infrastructure;
-using Images.Infrastructure.Configurations;
 using Images.Infrastructure.ImagesUploader;
 using Microsoft.Extensions.DependencyInjection;
 

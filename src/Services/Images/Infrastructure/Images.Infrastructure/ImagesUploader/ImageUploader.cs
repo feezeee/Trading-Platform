@@ -1,20 +1,10 @@
 ﻿using Images.Core.Contracts.Infrastructure;
-using Images.Infrastructure.Configurations;
 using Images.Core.Exceptions;
-using Microsoft.Extensions.Options;
 
 namespace Images.Infrastructure.ImagesUploader
 {
     public class ImageUploader : IImageUploader
     {
-        private readonly NextCloudSettings _nextCloudSettings;
-
-        /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
-        public ImageUploader(IOptions<NextCloudSettings> nextCloudConfigurationOptions)
-        {
-            _nextCloudSettings = nextCloudConfigurationOptions.Value;
-        }
-
         public async Task<string> UploadImageAsync(Stream fileStream, string fileName, CancellationToken token = default)
         {
             try

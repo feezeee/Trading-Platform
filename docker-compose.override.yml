@@ -5,9 +5,6 @@ services:
     container_name: images.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "MyNextCloudSettings:Url=http://image_storage"
-      - "MyNextCloudSettings:UserName=admin"
-      - "MyNextCloudSettings:Password=admin"
     ports:
       - "8001:80"
     volumes:

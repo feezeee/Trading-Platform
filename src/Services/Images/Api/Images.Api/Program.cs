@@ -1,20 +1,10 @@
 using Images.Core;
 using Images.Infrastructure;
-using Images.Infrastructure.Configurations;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.Configuration
-//    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-//    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-//    .AddDockerSecrets()
-//    .AddEnvironmentVariables();
-
-//Environment.ExpandEnvironmentVariables("NextCloudSettings:Url");
 
 // Add services to the container.
-builder.Services.Configure<NextCloudSettings>(builder.Configuration.GetSection("MyNextCloudSettings"));
-
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

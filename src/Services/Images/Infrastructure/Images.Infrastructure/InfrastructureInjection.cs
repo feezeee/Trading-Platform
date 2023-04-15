@@ -7,9 +7,9 @@ namespace Images.Infrastructure
 {
     public static class InfrastructureInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, NextCloudConfiguration nextCloudConfiguration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddSingleton<IImageUploader>(t => new ImageUploader(nextCloudConfiguration));
+            services.AddSingleton<IImageUploader, ImageUploader>();
             return services;
         }
     }

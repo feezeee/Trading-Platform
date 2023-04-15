@@ -1,19 +1,18 @@
 ﻿using Images.Core.Contracts.Infrastructure;
 using Images.Infrastructure.Configurations;
 using Images.Core.Exceptions;
-using RestSharp;
-using RestSharp.Authenticators;
+using Microsoft.Extensions.Options;
 
 namespace Images.Infrastructure.ImagesUploader
 {
     public class ImageUploader : IImageUploader
     {
-        private readonly NextCloudConfiguration _nextCloudConfiguration;
+        private readonly NextCloudSettings _nextCloudSettings;
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
-        public ImageUploader(NextCloudConfiguration nextCloudConfiguration)
+        public ImageUploader(IOptions<NextCloudSettings> nextCloudConfigurationOptions)
         {
-            _nextCloudConfiguration = nextCloudConfiguration;
+            _nextCloudSettings = nextCloudConfigurationOptions.Value;
         }
 
         public async Task<string> UploadImageAsync(Stream fileStream, string fileName, CancellationToken token = default)
@@ -22,46 +21,23 @@ namespace Images.Infrastructure.ImagesUploader
             {
                 var filePath = $"{Guid.NewGuid()}{Guid.NewGuid()}{fileName}";
 
-                var restOptions = new RestClientOptions(_nextCloudConfiguration.Url)
-                {
-                    Authenticator = new HttpBasicAuthenticator(_nextCloudConfiguration.UserName, _nextCloudConfiguration.Password)
-                };
-
-                var client = new RestClient(restOptions);
-
-                
-                
-                var request = new RestRequest("remote.php/dav/files/{username}/{filePath}", Method.Put);
-
-                request.AddHeader("Content-Type", "application/octet-stream");
-                request.AddParameter("username", _nextCloudConfiguration.UserName, ParameterType.UrlSegment);
-                request.AddParameter("filePath", filePath, ParameterType.UrlSegment);
+                string savePath = Path.Combine("images", filePath);
 
                 byte[] fileBytes;
-
-                if (fileStream is MemoryStream)
-                    fileBytes = ((MemoryStream)fileStream).ToArray();
-
+                
                 using (var memoryStream = new MemoryStream())
                 {
-                    fileStream.CopyTo(memoryStream);
+                    await fileStream.CopyToAsync(memoryStream, token);
                     fileBytes = memoryStream.ToArray();
                 }
 
-
-                request.AddParameter("application/octet-stream", fileBytes, ParameterType.RequestBody);
-
-                var response = await client.ExecuteAsync(request, token);
-
-                // Получаем ответ от сервера Nextcloud
-                if (response.IsSuccessful)
+                if (!Directory.Exists("images"))
                 {
-                    return $"{_nextCloudConfiguration.Url}/remote.php/dav/files/{_nextCloudConfiguration.UserName}/{filePath}";
+                    Directory.CreateDirectory("images");
                 }
-                else
-                {
-                    throw new ImageUploadException("Some problem with next cloud service", response.ErrorException);
-                }
+                await File.WriteAllBytesAsync(savePath, fileBytes, token);
+
+                return savePath;
             }
             catch (Exception e)
             {

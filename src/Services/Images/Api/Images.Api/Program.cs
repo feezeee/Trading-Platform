@@ -1,12 +1,19 @@
 using Images.Core;
 using Images.Infrastructure;
 using Images.Infrastructure.Configurations;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
+//builder.Configuration
+//    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+//    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+//    .AddDockerSecrets()
+//    .AddEnvironmentVariables();
+
+//Environment.ExpandEnvironmentVariables("NextCloudSettings:Url");
 
 // Add services to the container.
-builder.Services.AddInfrastructure(builder.Configuration.GetSection("NextCloudSettings").Get<NextCloudConfiguration>());
-builder.Services.AddCore();
+builder.Services.Configure<NextCloudSettings>(builder.Configuration.GetSection("MyNextCloudSettings"));
 
 
 builder.Services.AddControllers();
@@ -14,7 +21,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddInfrastructure();
+builder.Services.AddCore();
+
 var app = builder.Build();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "images")),
+    RequestPath = "/images"
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

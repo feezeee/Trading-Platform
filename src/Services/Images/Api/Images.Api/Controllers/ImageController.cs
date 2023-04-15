@@ -31,7 +31,7 @@ namespace Images.Api.Controllers
             }
             catch (Exception e)
             {
-               _logger.LogError(e.Message, e);
+               _logger.LogError(e, e.Message);
                return StatusCode(500);
             }
         }

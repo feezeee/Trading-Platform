@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  image_storage:
+    image: nextcloud:latest
+
+  images.api:
+    image: ${DOCKER_REGISTRY-}imagesapi
+    build:
+      context: .
+      dockerfile: src/Services/Images/Api/Images.Api/Dockerfile
+
+volumes:
+  image_storage_data:

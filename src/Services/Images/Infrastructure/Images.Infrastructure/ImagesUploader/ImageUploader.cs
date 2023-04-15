@@ -60,12 +60,12 @@ namespace Images.Infrastructure.ImagesUploader
                 }
                 else
                 {
-                    throw new ImageUploadException("Some problem with next cloud service");
+                    throw new ImageUploadException("Some problem with next cloud service", response.ErrorException);
                 }
             }
             catch (Exception e)
             {
-                throw new ImageUploadException("Some problem with next cloud service");
+                throw new ImageUploadException("Some problem with next cloud service", e);
             }
         }
     }

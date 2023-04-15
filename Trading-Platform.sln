@@ -53,15 +53,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{01A818
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{A08623CB-77EE-4991-BABB-7E1C2CA58F3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Images.Api", "src\Services\Images\Api\Images.Api\Images.Api.csproj", "{DAECA313-550D-4405-B5CC-A6706B70E99A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Images.Api", "src\Services\Images\Api\Images.Api\Images.Api.csproj", "{DAECA313-550D-4405-B5CC-A6706B70E99A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{CDAD80B9-6138-4B37-B981-33E6D1475BA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Images.Core", "src\Services\Images\Core\Images.Core\Images.Core.csproj", "{2253FBA7-1B37-4011-9AAA-936AE6F9762F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Images.Core", "src\Services\Images\Core\Images.Core\Images.Core.csproj", "{2253FBA7-1B37-4011-9AAA-936AE6F9762F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{F174C563-1B6C-4A1A-BEFF-EF0F236E55D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Images.Infrastructure", "src\Services\Images\Infrastructure\Images.Infrastructure\Images.Infrastructure.csproj", "{57619214-51AF-43C0-9279-BB611597582B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Images.Infrastructure", "src\Services\Images\Infrastructure\Images.Infrastructure\Images.Infrastructure.csproj", "{57619214-51AF-43C0-9279-BB611597582B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7A41953C-D306-4FDF-8067-FE48E117DAA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{57619214-51AF-43C0-9279-BB611597582B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57619214-51AF-43C0-9279-BB611597582B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57619214-51AF-43C0-9279-BB611597582B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A41953C-D306-4FDF-8067-FE48E117DAA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A41953C-D306-4FDF-8067-FE48E117DAA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A41953C-D306-4FDF-8067-FE48E117DAA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A41953C-D306-4FDF-8067-FE48E117DAA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

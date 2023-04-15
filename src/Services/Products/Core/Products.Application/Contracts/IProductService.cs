@@ -1,10 +1,14 @@
-﻿using Products.Models.Products;
+﻿using Products.Models.Pagintaion;
+using Products.Models.Products;
 
 namespace Products.Application.Contracts
 {
     public interface IProductService
     {
         public Task<List<GetProductDto>> GetAllAsync(CancellationToken token = default);
+
+        public Task<GetPaginationDto<GetProductDto>> GetAllPaginationAsync(int pageNumber, int pageSize,
+            CancellationToken token = default);
 
         public Task<GetProductDto?> GetByIdAsync(Guid id, CancellationToken token = default);
 

@@ -1,9 +1,13 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Products.Api.Models.Pagination.Response;
 using Products.Api.Models.Products.Request;
 using Products.Api.Models.Products.Response;
 using Products.Application.Contracts;
 using Products.Exceptions.RecordException;
+using Products.Models.Pagintaion;
 using Products.Models.Products;
 
 namespace Products.Api.Controllers
@@ -30,6 +34,34 @@ namespace Products.Api.Controllers
             {
                 var products = await _productService.GetAllAsync(token);
                 return _mapper.Map<List<GetProductResponse>>(products);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500);
+            }
+        }
+
+
+        [HttpGet("pagination")]
+        public async Task<ActionResult<GetPaginationDto<GetProductResponse>>> GetAllPaginationAsync(
+            [FromQuery][BindRequired][Required] int pageNumber,
+            [FromQuery][BindRequired][Required] int pageSize,
+            CancellationToken token = default)
+        {
+            try
+            {
+                var products = await _productService.GetAllPaginationAsync(pageNumber, pageSize, token);
+                return Ok(new GetPaginationResponse<GetProductResponse>(
+                    _mapper.Map<List<GetProductResponse>>(products.Data),
+                    pageNumber,
+                    pageSize,
+                    products.TotalCount));
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                _logger.LogError(e.Message, e);
+                return BadRequest(e.Message);
             }
             catch (Exception e)
             {

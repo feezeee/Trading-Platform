@@ -26,6 +26,25 @@ namespace Products.Persistence.MongoDatabase.Finders
             return AsQueryable().ToListAsync(token);
         }
 
+        public Task<List<ProductEntity>> GetAllPaginationAsync(int pageNumber, int pageSize, CancellationToken token = default)
+        {
+            if (pageNumber < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pageNumber), "pageNumber less than 1");
+            }
+            if (pageSize < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pageSize), "pageSize less than 1");
+            }
+
+            return AsQueryable().Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(token);
+        }
+
+        public Task<int> GetCountAsync(CancellationToken token = default)
+        {
+            return AsQueryable().CountAsync(token);
+        }
+
         public Task<ProductEntity?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
             return AsQueryable().FirstOrDefaultAsync(t => t.Id == id, token)!;

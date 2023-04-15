@@ -6,6 +6,7 @@ using Products.Domain.Entities;
 using Products.Models.Products;
 using Products.Exceptions.DbExceptions;
 using Products.Exceptions.RecordException;
+using Products.Models.Pagintaion;
 
 namespace Products.Application.Services
 {
@@ -42,6 +43,47 @@ namespace Products.Application.Services
             catch (Exception e)
             {
                 throw new MyDbException("Some problem with db", e);
+            }
+        }
+
+        public async Task<GetPaginationDto<GetProductDto>> GetAllPaginationAsync(int pageNumber, int pageSize,
+            CancellationToken token = default)
+        {
+            try
+            {
+                if (pageNumber < 1)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(pageNumber), "pageNumber less than 0");
+                }
+
+                if (pageSize < 1)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(pageNumber), "pageNumber less than 0");
+                }
+
+                var products = await _productFinder.GetAllPaginationAsync(pageNumber, pageSize, token);
+                var totalCount = await _productFinder.GetCountAsync(token);
+                return new GetPaginationDto<GetProductDto>(
+                    _mapper.Map<List<GetProductDto>>(products),
+                    pageNumber, pageSize, totalCount);
+
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                throw;
+            }
+            catch (AutoMapperConfigurationException)
+            {
+                throw;
+            }
+            catch (AutoMapperMappingException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new MyDbException("Some problem with db", e);
+
             }
         }
 

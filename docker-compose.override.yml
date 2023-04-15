@@ -11,9 +11,18 @@ services:
     expose:
       - "1433"
     volumes:
-      - "users_data:/var/opt/mssql"
+      - "users_data:/var/opt/mssql"  
 
-  
+  productsdb:
+    container_name: productsdb
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example  
+    expose:
+      - "27017" 
+    volumes:
+      - "products_data:/data/db"
 
   images.api:
     container_name: images.api
@@ -25,11 +34,16 @@ services:
     volumes:
       - "image_storage_data:/app/images"
 
-  # products.api:
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #   ports:
-  #     - "8002:80"
+  products.api:
+    container_name: products.api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DatabaseSettings__ConnectionString=mongodb://root:example@productsdb
+    ports:
+      - "8002:80"
+    depends_on:
+      - productsdb
 
   users.api:
     container_name: users.api

@@ -56,3 +56,14 @@ services:
     depends_on:
       - usersdb
 
+  ocelotapigateway:
+    container_name: ocelotapigateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - users.api
+      - products.api
+      - images.api
+    ports:
+      - "8010:80"
+

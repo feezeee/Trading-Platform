@@ -25,9 +25,16 @@ services:
       context: .
       dockerfile: src/Services/Users/Api/Users.Api/Dockerfile
 
+  ocelotapigateway:
+    image: ${DOCKER_REGISTRY-}ocelotapigateway
+    build:
+      context: .
+      dockerfile: src/ApiGateways/OcelotApiGateway/Dockerfile
+
 volumes:
   image_storage_data:
   products_data:
   users_data:
+
 
 

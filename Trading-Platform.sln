@@ -65,6 +65,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Images.Infrastructure", "sr
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7A41953C-D306-4FDF-8067-FE48E117DAA2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{5984BC3F-DC5C-42F4-9924-A5B4B720E15F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGateway", "src\ApiGateways\OcelotApiGateway\OcelotApiGateway.csproj", "{C691D882-90BA-43E8-9BBE-3099F0745A3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +139,10 @@ Global
 		{7A41953C-D306-4FDF-8067-FE48E117DAA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A41953C-D306-4FDF-8067-FE48E117DAA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A41953C-D306-4FDF-8067-FE48E117DAA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C691D882-90BA-43E8-9BBE-3099F0745A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C691D882-90BA-43E8-9BBE-3099F0745A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C691D882-90BA-43E8-9BBE-3099F0745A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C691D882-90BA-43E8-9BBE-3099F0745A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -169,6 +177,8 @@ Global
 		{2253FBA7-1B37-4011-9AAA-936AE6F9762F} = {CDAD80B9-6138-4B37-B981-33E6D1475BA3}
 		{F174C563-1B6C-4A1A-BEFF-EF0F236E55D9} = {01A818B6-0237-463C-A4EE-2E01F7A2D834}
 		{57619214-51AF-43C0-9279-BB611597582B} = {F174C563-1B6C-4A1A-BEFF-EF0F236E55D9}
+		{5984BC3F-DC5C-42F4-9924-A5B4B720E15F} = {2E82BE29-572C-4CAF-9C19-4E0CD5BB9A8A}
+		{C691D882-90BA-43E8-9BBE-3099F0745A3A} = {5984BC3F-DC5C-42F4-9924-A5B4B720E15F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E14666FA-F5FA-4C1D-A6DC-5A776EE42A06}

@@ -20,7 +20,9 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=example  
     expose:
-      - "27017" 
+      - "27017"
+    ports:
+      - "27020:27017" 
     volumes:
       - "products_data:/data/db"
 

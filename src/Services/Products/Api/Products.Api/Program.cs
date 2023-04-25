@@ -6,6 +6,7 @@ using Products.Persistence.MongoDatabase.Configurations;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors();
 
 builder.Services.AddPersistence(builder.Configuration.GetSection("DatabaseSettings").Get<MongoDbConfiguration>());
 builder.Services.AddApplicationServices();
@@ -29,5 +30,13 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors(
+    t =>
+    {
+        t.AllowAnyHeader();
+        t.AllowAnyMethod();
+        t.SetIsOriginAllowed(t => true);
+        t.AllowCredentials();
+    });
 
 app.Run();

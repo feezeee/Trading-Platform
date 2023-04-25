@@ -21,6 +21,7 @@ var userContextOptions = userContextOptionsSection.Get<UserContextOptions>();
 builder.Services.Configure<AuthOptions>(authOptionsSection);
 builder.Services.Configure<UserContextOptions>(userContextOptionsSection);
 
+builder.Services.AddCors();
 
 
 builder.Services.AddUsersApplicationServices();
@@ -98,5 +99,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors(
+    t =>
+    {
+        t.AllowAnyHeader();
+        t.AllowAnyMethod();
+        t.SetIsOriginAllowed(t => true);
+        t.AllowCredentials();
+    });
 app.Run();

@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
 
 builder.Services.AddInfrastructure();
 builder.Services.AddCore();
@@ -31,7 +32,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
+app.UseCors(
+    t =>
+    {
+        t.AllowAnyHeader();
+        t.AllowAnyMethod();
+        t.SetIsOriginAllowed(t => true);
+        t.AllowCredentials();
+    });
 app.MapControllers();
 
 app.Run();

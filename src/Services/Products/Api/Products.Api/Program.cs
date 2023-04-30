@@ -1,4 +1,6 @@
 using System.Reflection;
+using Amazon.Runtime.Internal.Auth;
+using Products.Api;
 using Products.Application;
 using Products.Persistence;
 using Products.Persistence.MongoDatabase.Configurations;
@@ -33,10 +35,15 @@ app.MapControllers();
 app.UseCors(
     t =>
     {
-        t.AllowAnyHeader();
+        t.AllowAnyOrigin();
         t.AllowAnyMethod();
-        t.SetIsOriginAllowed(t => true);
-        t.AllowCredentials();
+        t.AllowAnyHeader();
     });
+
+app.Use(async (context, next) =>
+{
+    await Task.Delay(2000);
+    await next.Invoke();
+});
 
 app.Run();

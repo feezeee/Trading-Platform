@@ -50,25 +50,31 @@
       ],
       "UpstreamPathTemplate": "/images",
       "UpstreamHttpMethod": [ "POST" ]
-    }
+    },
 
     //// Users API
-    //{
-    //  "DownstreamPathTemplate": "/api/users",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": "8001"
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/users",
-    //  "UpstreamHttpMethod": [ "POST" ]
-    //}
+    {
+      "DownstreamPathTemplate": "/api/authorization",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8003"
+        }
+      ],
+      "UpstreamPathTemplate": "/authorization",
+      "UpstreamHttpMethod": [ "POST" ]
+    }
 
 
   ],
   "GlobalConfiguration": {
-    "BaseUrl" : "http://localhost:5010" 
+    "BaseUrl": "http://localhost:5010"
+  },
+  "CorsOptions": {
+    "AllowOrigins": [ "*" ],
+    "AllowCredentials": true,
+    "AllowHeaders": [ "Content-Type", "Authorization" ],
+    "AllowMethods": [ "GET", "POST", "PUT", "DELETE" ]
   }
 }

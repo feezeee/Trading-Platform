@@ -88,6 +88,14 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
+app.UseCors(
+    t =>
+    {
+        t.AllowAnyOrigin();
+        t.AllowAnyMethod();
+        t.AllowAnyHeader();
+    });
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -99,12 +107,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors(
-    t =>
-    {
-        t.AllowAnyHeader();
-        t.AllowAnyMethod();
-        t.SetIsOriginAllowed(t => true);
-        t.AllowCredentials();
-    });
+
+
+app.Use(async (context, next) =>
+{
+    await Task.Delay(2000);
+    await next.Invoke();
+});
+
+
 app.Run();

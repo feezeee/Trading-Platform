@@ -35,11 +35,16 @@ app.UseAuthorization();
 app.UseCors(
     t =>
     {
-        t.AllowAnyHeader();
+        t.AllowAnyOrigin();
         t.AllowAnyMethod();
-        t.SetIsOriginAllowed(t => true);
-        t.AllowCredentials();
+        t.AllowAnyHeader();
     });
 app.MapControllers();
+
+app.Use(async (context, next) =>
+{
+    await Task.Delay(2000);
+    await next.Invoke();
+});
 
 app.Run();

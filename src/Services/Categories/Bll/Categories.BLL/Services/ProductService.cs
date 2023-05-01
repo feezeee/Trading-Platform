@@ -21,10 +21,6 @@ namespace Categories.BLL.Services
 
         public async Task<List<GetProductResponse>> GetAllAsync(CancellationToken token = default)
         {
-            //HttpClient httpClient = new HttpClient();
-            //var response = await httpClient.GetAsync($"{_productsApiOptions.ProductsApiHost}{_productsApiOptions.GetProducts}", token);
-
-
             var client = new RestClient($"{_productsApiOptions.ProductsApiHost}{_productsApiOptions.GetProducts}");
             var request = new RestRequest("", RestSharp.Method.Get);
             var response = await client.GetAsync(request, token);
@@ -33,14 +29,6 @@ namespace Categories.BLL.Services
             {
                 MaxDepth = 0
             }) ?? new List<GetProductResponse>();
-
-            //return JsonConvert.DeserializeObject<List<GetProductResponse>>(response.Content) ?? new List<GetProductResponse>();
-            //return JsonSerializer.Deserialize<List<GetProductResponse>>(response.Content ?? "", new JsonSerializerOptions
-            //       {
-            //           MaxDepth = 0
-            //       }) ??
-            //       new List<GetProductResponse>();
-            //return await JsonSerializer.DeserializeAsync<List<GetProductResponse>>(await response.Content.ReadAsStreamAsync(token), cancellationToken: token) ?? new List<GetProductResponse>();
         }
 
         public async Task<List<GetProductResponse>> GetWithCategoryAsync(Guid categoryId, CancellationToken token = default)
@@ -51,9 +39,6 @@ namespace Categories.BLL.Services
 
         public async Task<GetProductResponse> UpdateProductAsync(PutProductRequest putProduct, CancellationToken token = default)
         {
-            //HttpClient httpClient = new HttpClient();
-            //var response = await httpClient.PutAsync($"{_productsApiOptions.ProductsApiHost}{_productsApiOptions.UpdateProduct}", new , token);
-
             var client = new RestClient($"{_productsApiOptions.ProductsApiHost}{_productsApiOptions.UpdateProduct}");
             var request = new RestRequest("", RestSharp.Method.Put);
 
@@ -69,10 +54,6 @@ namespace Categories.BLL.Services
             {
                 MaxDepth = 0
             })!;
-            //return JsonSerializer.Deserialize<GetProductResponse>(response.Content ?? "", new JsonSerializerOptions
-            //{
-            //    MaxDepth = 0
-            //})!;
         }
     }
 }

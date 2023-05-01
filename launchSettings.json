@@ -10,7 +10,8 @@
         "images.api": "StartDebugging",
         "products.api": "StartDebugging",
         "users.api": "StartDebugging",
-        "ocelotapigateway": "StartDebugging"
+        "ocelotapigateway": "StartDebugging",
+        "categories.api": "StartDebugging"
       }
     }
   }

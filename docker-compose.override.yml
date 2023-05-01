@@ -13,6 +13,18 @@ services:
     volumes:
       - "users_data:/var/opt/mssql"  
 
+  categoriesdb:
+    container_name: categoriesdb
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=qweQWE_123
+      - MSSQL_PID=Developer
+    expose:
+      - "1433"
+    volumes:
+      - "categories_data:/var/opt/mssql"  
+
   productsdb:
     container_name: productsdb
     restart: always
@@ -60,6 +72,7 @@ services:
 
   ocelotapigateway:
     container_name: ocelotapigateway
+    restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
@@ -68,4 +81,16 @@ services:
       - images.api
     ports:
       - "8010:80"
+
+
+  categories.api:
+    container_name: categories.api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CategoryContextOptions__ConnectionString=Server=categoriesdb;Database=CategoriesDb;User Id=sa;Password=qweQWE_123;TrustServerCertificate=true;
+    ports:
+      - "8004:80"
+    depends_on:
+      - categoriesdb
 

@@ -89,6 +89,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - CategoryContextOptions__ConnectionString=Server=categoriesdb;Database=CategoriesDb;User Id=sa;Password=qweQWE_123;TrustServerCertificate=true;
+      - ProductsApiOptions__ProductsApiHost=http://products.api:80
     ports:
       - "8004:80"
     depends_on:

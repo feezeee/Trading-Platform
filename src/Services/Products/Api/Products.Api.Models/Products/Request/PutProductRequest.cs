@@ -33,5 +33,10 @@ namespace Products.Api.Models.Products.Request
 
         [JsonPropertyName("price")]
         public decimal? Price { get; set; }
+
+        [JsonPropertyName("category_id_list")]
+        [BindRequired]
+        [Required]
+        public List<Guid> CategoryIdList { get; set; } = new List<Guid>();
     }
 }

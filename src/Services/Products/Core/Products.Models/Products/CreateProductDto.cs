@@ -10,6 +10,8 @@
 
         public List<string> PhoneNumbers { get; set; } = new List<string>();
 
+        public List<Guid> CategoryIdList { get; set; } = new List<Guid>();
+
         public decimal? Price { get; set; }
     }
 }

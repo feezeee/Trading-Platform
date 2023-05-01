@@ -1,20 +1,30 @@
 using Categories.DAL.Options;
 using System.Reflection;
+using Categories.BLL.Options;
 using Categories.DAL;
 using Categories.DAL.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Categories.BLL;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 var categoryContextOptionsSection = builder.Configuration.GetSection("CategoryContextOptions");
+var productsApiOptionsSection = builder.Configuration.GetSection("ProductsApiOptions");
+
 var categoryContextOptions = categoryContextOptionsSection.Get<CategoryContextOptions>();
+var productsApiOptions = productsApiOptionsSection.Get<ProductsApiOptions>();
+
+builder.Services.Configure<CategoryContextOptions>(categoryContextOptionsSection);
+builder.Services.Configure<ProductsApiOptions>(productsApiOptionsSection);
 
 
 builder.Services.AddCors();
 
 builder.Services.AddCategoriesDal(categoryContextOptions);
+builder.Services.AddCategoriesBll();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

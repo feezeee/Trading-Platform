@@ -1,16 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Products.Api.Models.Products.Response
+namespace Products.Api.Models.Products.Request
 {
-    public class GetProductResponse
+    public class PostProductRequest
     {
-        [JsonPropertyName("id")]
-        [BindRequired]
-        [Required]
-        public Guid Id { get; set; }
-
         [JsonPropertyName("name")]
         [BindRequired]
         [Required]
@@ -33,5 +28,10 @@ namespace Products.Api.Models.Products.Response
 
         [JsonPropertyName("price")]
         public decimal? Price { get; set; }
+
+        [JsonPropertyName("category_id_list")]
+        [BindRequired]
+        [Required]
+        public List<Guid> CategoryIdList { get; set; } = new List<Guid>();
     }
 }

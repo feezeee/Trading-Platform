@@ -2,10 +2,12 @@ using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Categories.API.Models.Category;
 using Categories.API.Models.Pagination.Response;
+using Categories.BLL.Contracts.Services;
 using Categories.BLL.Contracts.UnitOfWork;
 using Categories.BLL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Products.Api.Models.Products.Request;
 
 namespace Categories.API.Controllers
 {
@@ -16,12 +18,14 @@ namespace Categories.API.Controllers
         private readonly ILogger<CategoryController> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IProductService _productService;
 
-        public CategoryController(ILogger<CategoryController> logger, IUnitOfWork unitOfWork, IMapper mapper)
+        public CategoryController(ILogger<CategoryController> logger, IUnitOfWork unitOfWork, IMapper mapper, IProductService productService)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _productService = productService;
         }
 
         [HttpGet]
@@ -154,6 +158,16 @@ namespace Categories.API.Controllers
             try
             {
                 var category = await _unitOfWork.CategoryFinder.GetByIdAsync(id, token);
+
+                var products = await _productService.GetWithCategoryAsync(id, token);
+
+                foreach (var getProductResponse in products)
+                {
+                    var resList = getProductResponse.CategoryIdList.Where(t => t != id).ToList();
+                    var updateProduct = _mapper.Map<PutProductRequest>(getProductResponse);
+                    updateProduct.CategoryIdList = resList;
+                    await _productService.UpdateProductAsync(updateProduct, token);
+                }
 
                 if (category is not null)
                 {

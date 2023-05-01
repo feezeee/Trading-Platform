@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Dal\Categories.DAL\Categories.DAL.csproj" />
+    <ProjectReference Include="..\Categories.API.Models\Categories.API.Models.csproj" />
   </ItemGroup>
 
 </Project>

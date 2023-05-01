@@ -22,5 +22,8 @@ namespace Users.Api.Models.Request.User
         [BindRequired]
         [Required]
         public string Nickname { get; set; } = string.Empty;
+
+        [JsonPropertyName("profile_image_url")]
+        public string? ProfileImageUrl { get; set; }
     }
 }

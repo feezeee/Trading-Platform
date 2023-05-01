@@ -35,6 +35,10 @@ namespace Users.Persistence.Configurations.ModelBuilderConfig
             entityTypeBuilder
                 .Property(t => t.Password)
                 .IsRequired();
+            
+            entityTypeBuilder
+                .Property(t => t.ProfileImageUrl)
+                .IsRequired(false);
 
 
             entityTypeBuilder

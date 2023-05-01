@@ -8,6 +8,8 @@
         public string Nickname { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
 
+        public string? ProfileImageUrl { get; set; }
+
         public DateTime RegistrationDate { get; set; }
 
         public ICollection<RoleEntity> Roles { get; set; } = new List<RoleEntity>();

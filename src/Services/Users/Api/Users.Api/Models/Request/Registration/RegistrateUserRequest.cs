@@ -22,5 +22,8 @@ namespace Users.Api.Models.Request.Registration
         [BindRequired]
         [Required]
         public string Password { get; set; } = string.Empty;
+
+        [JsonPropertyName("profile_image_url")]
+        public string? ProfileImageUrl { get; set; }
     }
 }

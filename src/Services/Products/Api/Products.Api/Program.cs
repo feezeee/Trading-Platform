@@ -22,6 +22,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseCors(
+    t =>
+    {
+        t.AllowAnyOrigin();
+        t.AllowAnyMethod();
+        t.AllowAnyHeader();
+    });
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -32,13 +40,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseCors(
-    t =>
-    {
-        t.AllowAnyOrigin();
-        t.AllowAnyMethod();
-        t.AllowAnyHeader();
-    });
+
 
 app.Use(async (context, next) =>
 {

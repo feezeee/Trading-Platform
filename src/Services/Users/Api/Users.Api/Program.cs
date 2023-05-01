@@ -111,7 +111,7 @@ app.MapControllers();
 
 app.Use(async (context, next) =>
 {
-    await Task.Delay(2000);
+    await Task.Delay(100);
     await next.Invoke();
 });
 

@@ -10,6 +10,8 @@ namespace Users.Models.Users
         public string LastName { get; set; } = string.Empty;
         public string Nickname { get; set; } = string.Empty;
 
+        public string? ProfileImageUrl { get; set; }
+
         public DateTime RegistrationDate { get; set; }
 
         public ICollection<GetRoleDto> Roles { get; set; } = new List<GetRoleDto>();

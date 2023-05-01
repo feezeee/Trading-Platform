@@ -13,5 +13,7 @@ namespace Users.Application.Features.Users.Commands.RegisterUser
         public string Nickname { get; set; } = string.Empty;
 
         public string Password { get; set; } = string.Empty;
+
+        public string? ProfileImageUrl { get; set; }
     }
 }

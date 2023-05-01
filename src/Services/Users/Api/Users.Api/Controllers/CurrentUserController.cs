@@ -32,7 +32,7 @@ namespace Users.Api.Controllers
         {
             try
             {
-                var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var token = HttpContext.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last();
                 if (token is null)
                 {
                     _logger.LogError("Some problem with jwt token");
@@ -67,7 +67,7 @@ namespace Users.Api.Controllers
         {
             try
             {
-                var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var token = HttpContext.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last();
                 if (token is null)
                 {
                     _logger.LogError("Some problem with jwt token");

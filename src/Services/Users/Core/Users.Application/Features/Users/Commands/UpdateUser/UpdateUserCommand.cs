@@ -12,5 +12,7 @@ namespace Users.Application.Features.Users.Commands.UpdateUser
         public string LastName { get; set; } = string.Empty;
 
         public string Nickname { get; set; } = string.Empty;
+
+        public string? ProfileImageUrl { get; set; }
     }
 }

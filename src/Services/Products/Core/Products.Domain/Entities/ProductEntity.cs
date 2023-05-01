@@ -15,5 +15,7 @@
         public List<Guid> CategoryIdList { get; set; } = new List<Guid>();
 
         public decimal? Price { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

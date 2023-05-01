@@ -38,5 +38,10 @@ namespace Products.Api.Models.Products.Response
         [BindRequired]
         [Required]
         public List<Guid> CategoryIdList { get; set; } = new List<Guid>();
+
+        [JsonPropertyName("created_at")]
+        [BindRequired]
+        [Required]
+        public DateTime CreatedAt { get; set; }
     }
 }

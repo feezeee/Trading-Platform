@@ -114,6 +114,7 @@ namespace Products.Application.Services
             {
                 var createProduct = _mapper.Map<ProductEntity>(product);
                 createProduct.Id = Guid.NewGuid();
+                createProduct.CreatedAt = DateTime.Now;
                 await _productRepository.CreateAsync(createProduct, token);
                 return _mapper.Map<GetProductDto>(createProduct);
             }

@@ -33,5 +33,10 @@ namespace Products.Api.Models.Products.Request
         [BindRequired]
         [Required]
         public List<Guid> CategoryIdList { get; set; } = new List<Guid>();
+
+        [JsonPropertyName("user_id")]
+        [BindRequired]
+        [Required]
+        public Guid UserId { get; set; }
     }
 }

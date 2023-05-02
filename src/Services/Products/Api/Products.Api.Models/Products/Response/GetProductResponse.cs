@@ -43,5 +43,10 @@ namespace Products.Api.Models.Products.Response
         [BindRequired]
         [Required]
         public DateTime CreatedAt { get; set; }
+
+        [JsonPropertyName("user_id")]
+        [BindRequired]
+        [Required]
+        public Guid UserId { get; set; }
     }
 }

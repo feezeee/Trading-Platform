@@ -29,12 +29,24 @@ namespace Products.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetProductResponse>>> GetAllAsync(CancellationToken token = default)
+        public async Task<ActionResult<List<GetProductResponse>>> GetAllAsync(
+            [FromQuery] Guid? userId,
+            [FromQuery] decimal? fromPrice,
+            [FromQuery] decimal? toPrice,
+            [FromQuery] bool? priceIsSet,
+            [FromQuery] bool? imagesAreSet,
+            CancellationToken token = default)
         {
             try
             {
-                var products = await _productService.GetAllAsync(token);
-                return _mapper.Map<List<GetProductResponse>>(products);
+                var products = await _productService.GetAllAsync(
+                    userId: userId,
+                    fromPrice: fromPrice,
+                    toPrice: toPrice,
+                    priceIsSet: priceIsSet,
+                    imagesAreSet: imagesAreSet,
+                    token: token);
+                return Ok(_mapper.Map<List<GetProductResponse>>(products));
             }
             catch (Exception e)
             {
@@ -42,7 +54,6 @@ namespace Products.Api.Controllers
                 return StatusCode(500);
             }
         }
-
 
         [HttpGet("pagination")]
         public async Task<ActionResult<GetPaginationDto<GetProductResponse>>> GetAllPaginationAsync(

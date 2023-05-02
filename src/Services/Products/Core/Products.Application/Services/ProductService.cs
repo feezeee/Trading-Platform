@@ -25,11 +25,23 @@ namespace Products.Application.Services
             _productFinder = productFinder;
         }
 
-        public async Task<List<GetProductDto>> GetAllAsync(CancellationToken token = default)
+        public async Task<List<GetProductDto>> GetAllAsync(
+            Guid? userId = null,
+            decimal? fromPrice = null,
+            decimal? toPrice = null,
+            bool? priceIsSet = null,
+            bool? imagesAreSet = null, 
+            CancellationToken token = default)
         {
             try
             {
-                var products = await _productFinder.GetAllAsync(token);
+                var products = await _productFinder.GetAllAsync(
+                    userId: userId,
+                    fromPrice: fromPrice,
+                    toPrice: toPrice,
+                    priceIsSet: priceIsSet,
+                    imagesAreSet: imagesAreSet,
+                    token: token);
                 return _mapper.Map<List<GetProductDto>>(products);
             }
             catch (AutoMapperConfigurationException)

@@ -5,7 +5,13 @@ namespace Products.Application.Contracts
 {
     public interface IProductService
     {
-        public Task<List<GetProductDto>> GetAllAsync(CancellationToken token = default);
+        public Task<List<GetProductDto>> GetAllAsync(
+            Guid? userId = null,
+            decimal? fromPrice = null,
+            decimal? toPrice = null,
+            bool? priceIsSet = null,
+            bool? imagesAreSet = null, 
+            CancellationToken token = default);
 
         public Task<GetPaginationDto<GetProductDto>> GetAllPaginationAsync(int pageNumber, int pageSize,
             CancellationToken token = default);

@@ -16,14 +16,78 @@ namespace Products.Persistence.MongoDatabase.Finders
             _orderContext = orderContext;
         }
 
-        protected IMongoQueryable<ProductEntity> AsQueryable()
+        protected IMongoQueryable<ProductEntity> AsQueryable(
+            Guid? userId = null,
+            decimal? minPrice = null,
+            decimal? maxPrice = null,
+            bool? priceIsSet = null,
+            bool? imagesAreSet = null)
         {
-            return _orderContext.Products.AsQueryable();
+            var data = _orderContext.Products.AsQueryable();
+
+            data = userId is null
+                ? data
+                : data.Where(t => t.UserId == userId);
+
+
+            if (priceIsSet is null)
+            {
+                if (minPrice is not null && maxPrice is not null)
+                {
+                    data = data.Where(t => t.Price == null || (minPrice <= t.Price && t.Price <= maxPrice));
+                }
+                else if (minPrice is not null)
+                {
+                    data = data.Where(t => t.Price == null || (minPrice <= t.Price));
+                }
+                else if (maxPrice is not null)
+                {
+                    data = data.Where(t => t.Price == null || (t.Price <= maxPrice));
+                }
+            }
+            else if (priceIsSet == true)
+            {
+                if (minPrice is not null && maxPrice is not null)
+                {
+                    data = data.Where(t => t.Price != null && (minPrice <= t.Price && t.Price <= maxPrice));
+                }
+                else if (minPrice is not null)
+                {
+                    data = data.Where(t => t.Price != null && (minPrice <= t.Price));
+                }
+                else if (maxPrice is not null)
+                {
+                    data = data.Where(t => t.Price != null && (t.Price <= maxPrice));
+                }
+            }
+            else
+            {
+                data = data.Where(t => t.Price == null);
+            }
+
+            data = imagesAreSet is null
+                ? data
+                : imagesAreSet == true
+                    ? data.Where(t => t.ImageUrls.Any())
+                    : data.Where(t => !t.ImageUrls.Any());
+
+            return data;
         }
 
-        public Task<List<ProductEntity>> GetAllAsync(CancellationToken token = default)
+        public Task<List<ProductEntity>> GetAllAsync(
+            Guid? userId = null,
+            decimal? fromPrice = null,
+            decimal? toPrice = null,
+            bool? priceIsSet = null,
+            bool? imagesAreSet = null,
+            CancellationToken token = default)
         {
-            return AsQueryable().ToListAsync(token);
+            return AsQueryable(
+                userId: userId,
+                minPrice: fromPrice,
+                maxPrice: toPrice,
+                priceIsSet: priceIsSet,
+                imagesAreSet: imagesAreSet).ToListAsync(token);
         }
 
         public Task<List<ProductEntity>> GetAllPaginationAsync(int pageNumber, int pageSize, CancellationToken token = default)

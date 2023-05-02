@@ -29,41 +29,22 @@ namespace Products.Persistence.MongoDatabase.Finders
                 ? data
                 : data.Where(t => t.UserId == userId);
 
-
-            if (priceIsSet is null)
+            data = priceIsSet switch
             {
-                if (minPrice is not null && maxPrice is not null)
-                {
-                    data = data.Where(t => t.Price == null || (minPrice <= t.Price && t.Price <= maxPrice));
-                }
-                else if (minPrice is not null)
-                {
-                    data = data.Where(t => t.Price == null || (minPrice <= t.Price));
-                }
-                else if (maxPrice is not null)
-                {
-                    data = data.Where(t => t.Price == null || (t.Price <= maxPrice));
-                }
-            }
-            else if (priceIsSet == true)
-            {
-                if (minPrice is not null && maxPrice is not null)
-                {
-                    data = data.Where(t => t.Price != null && (minPrice <= t.Price && t.Price <= maxPrice));
-                }
-                else if (minPrice is not null)
-                {
-                    data = data.Where(t => t.Price != null && (minPrice <= t.Price));
-                }
-                else if (maxPrice is not null)
-                {
-                    data = data.Where(t => t.Price != null && (t.Price <= maxPrice));
-                }
-            }
-            else
-            {
-                data = data.Where(t => t.Price == null);
-            }
+                null when minPrice != null && maxPrice != null => data.Where(t =>
+                    t.Price == null || (t.Price != null && minPrice <= t.Price && t.Price <= maxPrice)),
+                null when minPrice != null => data.Where(t =>
+                    t.Price == null || (t.Price != null && minPrice <= t.Price)),
+                null when maxPrice != null => data.Where(t =>
+                    t.Price == null || (t.Price != null && t.Price <= maxPrice)),
+                null => data.Where(t => t.Price == null || t.Price != null),
+                true when minPrice != null && maxPrice != null => data.Where(t =>
+                    (t.Price != null && minPrice <= t.Price && t.Price <= maxPrice)),
+                true when minPrice != null => data.Where(t => (t.Price != null && minPrice <= t.Price)),
+                true when maxPrice != null => data.Where(t => (t.Price != null && t.Price <= maxPrice)),
+                true => data.Where(t => t.Price != null),
+                false => data.Where(t => t.Price == null)
+            };
 
             data = imagesAreSet is null
                 ? data

@@ -27,7 +27,7 @@ namespace Images.Infrastructure.ImagesUploader
                 }
                 await File.WriteAllBytesAsync(savePath, fileBytes, token);
 
-                return savePath;
+                return $"/{savePath}";
             }
             catch (Exception e)
             {

@@ -63,4 +63,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.Use(async (context, next) =>
+{
+    await Task.Delay(1000);
+    await next.Invoke();
+});
+
 app.Run();

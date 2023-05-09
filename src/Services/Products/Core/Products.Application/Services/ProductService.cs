@@ -31,6 +31,7 @@ namespace Products.Application.Services
             decimal? toPrice = null,
             bool? priceIsSet = null,
             bool? imagesAreSet = null, 
+            string? text = null,
             CancellationToken token = default)
         {
             try
@@ -41,6 +42,7 @@ namespace Products.Application.Services
                     toPrice: toPrice,
                     priceIsSet: priceIsSet,
                     imagesAreSet: imagesAreSet,
+                    text: text,
                     token: token);
                 return _mapper.Map<List<GetProductDto>>(products);
             }

@@ -10,6 +10,7 @@ namespace Products.Domain.Contracts.Finders
             decimal? toPrice = null,
             bool? priceIsSet = null,
             bool? imagesAreSet = null, 
+            string? text = null,
             CancellationToken token = default);
 
         public Task<List<ProductEntity>> GetAllPaginationAsync(int pageNumber, int pageSize, CancellationToken token = default);

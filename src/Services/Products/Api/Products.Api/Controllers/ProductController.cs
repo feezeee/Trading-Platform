@@ -35,6 +35,7 @@ namespace Products.Api.Controllers
             [FromQuery] decimal? toPrice,
             [FromQuery] bool? priceIsSet,
             [FromQuery] bool? imagesAreSet,
+            [FromQuery] string? text,
             CancellationToken token = default)
         {
             try
@@ -45,6 +46,7 @@ namespace Products.Api.Controllers
                     toPrice: toPrice,
                     priceIsSet: priceIsSet,
                     imagesAreSet: imagesAreSet,
+                    text: text,
                     token: token);
                 return Ok(_mapper.Map<List<GetProductResponse>>(products));
             }

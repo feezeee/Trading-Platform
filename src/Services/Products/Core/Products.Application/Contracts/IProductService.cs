@@ -11,6 +11,7 @@ namespace Products.Application.Contracts
             decimal? toPrice = null,
             bool? priceIsSet = null,
             bool? imagesAreSet = null, 
+            string? text = null,
             CancellationToken token = default);
 
         public Task<GetPaginationDto<GetProductDto>> GetAllPaginationAsync(int pageNumber, int pageSize,

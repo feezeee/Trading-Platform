@@ -21,7 +21,8 @@ namespace Products.Persistence.MongoDatabase.Finders
             decimal? minPrice = null,
             decimal? maxPrice = null,
             bool? priceIsSet = null,
-            bool? imagesAreSet = null)
+            bool? imagesAreSet = null,
+            string? text = null)
         {
             var data = _orderContext.Products.AsQueryable();
 
@@ -52,6 +53,10 @@ namespace Products.Persistence.MongoDatabase.Finders
                     ? data.Where(t => t.ImageUrls.Any())
                     : data.Where(t => !t.ImageUrls.Any());
 
+            data = text is null
+                ? data
+                : data.Where(t => t.Name.ToLower().Contains(text) || t.Description.ToLower().Contains(text));
+
             return data;
         }
 
@@ -61,6 +66,7 @@ namespace Products.Persistence.MongoDatabase.Finders
             decimal? toPrice = null,
             bool? priceIsSet = null,
             bool? imagesAreSet = null,
+            string? text = null,
             CancellationToken token = default)
         {
             return AsQueryable(
@@ -68,6 +74,7 @@ namespace Products.Persistence.MongoDatabase.Finders
                 minPrice: fromPrice,
                 maxPrice: toPrice,
                 priceIsSet: priceIsSet,
+                text: text,
                 imagesAreSet: imagesAreSet).ToListAsync(token);
         }
 

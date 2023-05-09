@@ -1,11 +1,27 @@
+using Messages.DAL;
+using Messages.DAL.Configurations;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors();
+
+//builder.Services.AddPersistence(builder.Configuration.GetSection("DatabaseSettings").Get<MongoDbConfiguration>());
+//builder.Services.AddApplicationServices();
+
+
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddMessagesDal(builder.Configuration.GetSection("DatabaseSettings").Get<MongoDbConfiguration>());
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 
 var app = builder.Build();
 
@@ -16,7 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 

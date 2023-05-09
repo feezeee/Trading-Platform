@@ -11,7 +11,8 @@
         "products.api": "StartDebugging",
         "users.api": "StartDebugging",
         "ocelotapigateway": "StartDebugging",
-        "categories.api": "StartDebugging"
+        "categories.api": "StartDebugging",
+        "messages.api": "StartDebugging"
       }
     }
   }

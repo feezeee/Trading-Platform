@@ -1,6 +1,9 @@
 version: '3.4'
 
 services:
+  messagesdb: 
+    image: mongo:latest
+
   productsdb:
     image: mongo:latest
   
@@ -40,11 +43,19 @@ services:
       context: .
       dockerfile: src/Services/Categories/Api/Categories.API/Dockerfile
 
+  messages.api:
+    image: ${DOCKER_REGISTRY-}messagesapi
+    build:
+      context: .
+      dockerfile: src/Services/Messages/Api/Messages.API/Dockerfile
+
 volumes:
   image_storage_data:
   products_data:
   users_data:
   categories_data:
+  messages_data:
+
 
 
 

@@ -38,6 +38,19 @@ services:
     volumes:
       - "products_data:/data/db"
 
+  messagesdb:
+    container_name: messagesdb
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example 
+    expose:
+      - "27017"
+    ports:
+      - "27040:27017"
+    volumes:
+      - "messages_data:/data/db"
+
   images.api:
     container_name: images.api
     restart: always
@@ -95,4 +108,15 @@ services:
       - "8004:80"
     depends_on:
       - categoriesdb
+
+  messages.api:
+    container_name: messages.api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DatabaseSettings__ConnectionString=mongodb://root:example@messagesdb
+    ports:
+      - "8005:80"
+    depends_on:
+      - messagesdb
 

@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BLL\Messages.BLL\Messages.BLL.csproj" />
     <ProjectReference Include="..\..\DAL\Messages.DAL\Messages.DAL.csproj" />
+    <ProjectReference Include="..\Messages.Models\Messages.Models.csproj" />
   </ItemGroup>
 
 </Project>

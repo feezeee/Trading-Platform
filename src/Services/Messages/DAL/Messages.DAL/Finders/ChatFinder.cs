@@ -29,5 +29,12 @@ namespace Messages.DAL.Finders
         {
             return AsQueryable().Where(t => t.Users.Any(uId => uId == userId)).ToListAsync(cancellationToken);
         }
+
+        public async Task<ChatEntity?> GetChatBetweenUsersAsync(List<Guid> userIdList,
+            CancellationToken cancellationToken = default)
+        {
+            return await AsQueryable().Where(t => userIdList.All(q => t.Users.Contains(q)))
+                .FirstOrDefaultAsync(cancellationToken) ?? null;
+        }
     }
 }

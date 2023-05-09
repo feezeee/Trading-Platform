@@ -3,6 +3,10 @@ using Messages.BLL.Contracts.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
+using Messages.BLL.Entities;
+using Messages.Models.Chat;
+using Messages.Models.Message;
 
 namespace Messages.API.Controllers
 {
@@ -15,21 +19,53 @@ namespace Messages.API.Controllers
         private readonly IMessageRepository _messageRepository;
         private readonly IChatFinder _chatFinder;
         private readonly IChatRepository _chatRepository;
+        private readonly IMapper _mapper;
 
-        public MessageController(ILogger<MessageController> logger, IMessageFinder messageFinder, IMessageRepository messageRepository, IChatFinder chatFinder, IChatRepository chatRepository)
+        public MessageController(ILogger<MessageController> logger, IMessageFinder messageFinder, IMessageRepository messageRepository, IChatFinder chatFinder, IChatRepository chatRepository, IMapper mapper)
         {
             _logger = logger;
             _messageFinder = messageFinder;
             _messageRepository = messageRepository;
             _chatFinder = chatFinder;
             _chatRepository = chatRepository;
+            _mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SaveMessage(CancellationToken cancellationToken = default)
+        [HttpPost("new-message")]
+        public async Task<IActionResult> SendNewMessage([FromBody] PostNewMessageRequest newMessageRequest, CancellationToken cancellationToken = default)
         {
             try
             {
+                var chatExist = await _chatFinder.GetChatBetweenUsersAsync(new List<Guid>
+                {
+                    newMessageRequest.FromUserId,
+                    newMessageRequest.ToUserId,
+                }, cancellationToken);
+
+                if (chatExist is null)
+                {
+                    chatExist = new ChatEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        Messages = new List<MessageEntity>(),
+                        Users = new List<Guid>
+                        {
+                            newMessageRequest.FromUserId,
+                            newMessageRequest.ToUserId,
+                        }
+                    };
+                    await _chatRepository.CreateAsync(chatExist, cancellationToken);
+                }
+
+                var newMessage = new MessageEntity
+                {
+                    Id = Guid.NewGuid(),
+                    ChatId = chatExist.Id,
+                    CreatedDate = DateTime.Now,
+                    Message = newMessageRequest.Message,
+                    UserId = newMessageRequest.FromUserId
+                };
+                await _messageRepository.CreateAsync(newMessage, cancellationToken);
                 return Ok();
             }
             catch (Exception e)
@@ -38,6 +74,7 @@ namespace Messages.API.Controllers
                 return StatusCode(500);
             }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> GetChatsForUser([FromQuery][BindRequired][Required] Guid userId, CancellationToken cancellationToken = default)
@@ -50,7 +87,7 @@ namespace Messages.API.Controllers
                     chat.Messages = (await _messageFinder.GetAllForChatIdAsync(chat.Id, cancellationToken)).OrderByDescending(t => t.CreatedDate).ToList();
                 }
                 chats = chats.OrderByDescending(t => t.Messages.Max(t => t.CreatedDate)).ToList();
-                return Ok(chats);
+                return Ok(_mapper.Map<List<GetChatResponse>>(chats));
             }
             catch (Exception e)
             {

@@ -7,5 +7,8 @@ namespace Messages.BLL.Contracts.Finders
         public Task<List<ChatEntity>> GetAllAsync(CancellationToken cancellationToken = default);
 
         public Task<List<ChatEntity>> GetAllForUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
+
+        public Task<ChatEntity?> GetChatBetweenUsersAsync(List<Guid> userIdList,
+            CancellationToken cancellationToken = default);
     }
 }

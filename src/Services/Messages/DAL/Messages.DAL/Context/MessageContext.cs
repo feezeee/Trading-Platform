@@ -16,7 +16,7 @@ namespace Messages.DAL.Context
             BsonClassMap.RegisterClassMap<MessageEntity>(cm => cm.SetUp());
 
             Chats = database.GetCollection<ChatEntity>(mongoDbOptions.ChatCollectionName);
-            Messages = database.GetCollection<MessageEntity>(mongoDbOptions.MessageCollectionName)
+            Messages = database.GetCollection<MessageEntity>(mongoDbOptions.MessageCollectionName);
         }
 
         public IMongoCollection<ChatEntity> Chats { get; }

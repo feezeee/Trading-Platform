@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Users.Api.Models.Request.CurrentUser;
 using Users.Api.Models.Response.User;
+using Users.Application.Features.Users.Commands.ChangePassword;
 using Users.Application.Features.Users.Queries.GetUserFullByNickname;
 using Users.Application.Features.Users.Queries.GetUserShortByNickname;
 
@@ -89,6 +91,38 @@ namespace Users.Api.Controllers
                     return BadRequest();
                 }
                 return Ok(_mapper.Map<GetUserFullResponse>(res));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePasswordAsync([FromBody] PostNewPasswordRequest postNewPasswordRequest, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var token = HttpContext.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last();
+                if (token is null)
+                {
+                    _logger.LogError("Some problem with jwt token");
+                    return Unauthorized();
+                }
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var decodeToken = tokenHandler.ReadJwtToken(token);
+                var claims = decodeToken.Claims;
+                var nicknameClaim = claims.First(t => t.Type == ClaimTypes.NameIdentifier);
+
+                await _mediator.Send(new ChangePasswordCommand
+                {
+                    Nickname = nicknameClaim.Value,
+                    NewPassword = postNewPasswordRequest.NewPassword
+                }, cancellationToken);
+                return Ok();
             }
             catch (Exception e)
             {

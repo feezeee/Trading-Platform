@@ -7,6 +7,7 @@ using Users.Application;
 using Users.Models.Options;
 using Users.Persistence;
 using Users.Persistence.Options;
+using Users.Application.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 var authOptionsSection = builder.Configuration.GetSection("AuthOptions");
 var userContextOptionsSection = builder.Configuration.GetSection("UserContextOptions");
+var productsApiOptionsSection = builder.Configuration.GetSection("ProductsApiOptions");
+
 
 var authOptions = authOptionsSection.Get<AuthOptions>();
 var userContextOptions = userContextOptionsSection.Get<UserContextOptions>();
+var productsApiOptions = productsApiOptionsSection.Get<ProductsApiOptions>();
+
 
 builder.Services.Configure<AuthOptions>(authOptionsSection);
 builder.Services.Configure<UserContextOptions>(userContextOptionsSection);
@@ -26,6 +31,7 @@ builder.Services.AddCors();
 
 builder.Services.AddUsersApplicationServices();
 builder.Services.AddUsersPersistence(userContextOptions);
+builder.Services.AddUsersInfrastructure(productsApiOptions);
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

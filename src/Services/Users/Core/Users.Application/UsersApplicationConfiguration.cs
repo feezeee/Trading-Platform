@@ -14,7 +14,6 @@ namespace Users.Application
             services.AddMediatR(t => t.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddScoped<IPasswordEncryptor, PasswordEncryptor>();
             services.AddScoped<ITokenGenerator, TokenGenerator>();
-
             return services;
         }
     }

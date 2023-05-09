@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Users.Application\Users.Application.csproj" />
     <ProjectReference Include="..\..\Core\Users.Models\Users.Models.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Users.Infrastructure\Users.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Persistence\Users.Persistence\Users.Persistence.csproj" />
   </ItemGroup>
 

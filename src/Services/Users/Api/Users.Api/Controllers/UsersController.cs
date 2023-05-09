@@ -147,6 +147,9 @@ namespace Users.Api.Controllers
                     Id = id
                 };
                 await _mediator.Send(command, token);
+
+
+
                 return Ok();
             }
             catch (EntityNotFoundException e)

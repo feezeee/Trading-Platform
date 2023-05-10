@@ -1,6 +1,7 @@
 using Messages.DAL;
 using Messages.DAL.Configurations;
 using System.Reflection;
+using Messages.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,15 +22,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSignalR();
 
 
 var app = builder.Build();
 
 app.UseCors(t =>
 {
-    t.AllowAnyOrigin();
-    t.AllowAnyMethod();
     t.AllowAnyHeader();
+    t.AllowAnyMethod();
+    t.SetIsOriginAllowed(t => true);
+    t.AllowCredentials();
 });
 
 // Configure the HTTP request pipeline.
@@ -39,8 +42,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//app.UseEndpoints(endpoints =>
+//{
+    
+//});
 //app.UseAuthorization();
 
+app.MapHub<ChatHub>("/chat");
 app.MapControllers();
+
 
 app.Run();

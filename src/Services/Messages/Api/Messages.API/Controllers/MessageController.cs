@@ -7,6 +7,8 @@ using AutoMapper;
 using Messages.BLL.Entities;
 using Messages.Models.Chat;
 using Messages.Models.Message;
+using Microsoft.AspNetCore.SignalR;
+using System.Threading;
 
 namespace Messages.API.Controllers
 {
@@ -20,8 +22,9 @@ namespace Messages.API.Controllers
         private readonly IChatFinder _chatFinder;
         private readonly IChatRepository _chatRepository;
         private readonly IMapper _mapper;
+        private readonly IHubContext<ChatHub> _chatHub;
 
-        public MessageController(ILogger<MessageController> logger, IMessageFinder messageFinder, IMessageRepository messageRepository, IChatFinder chatFinder, IChatRepository chatRepository, IMapper mapper)
+        public MessageController(ILogger<MessageController> logger, IMessageFinder messageFinder, IMessageRepository messageRepository, IChatFinder chatFinder, IChatRepository chatRepository, IMapper mapper, IHubContext<ChatHub> chatHub)
         {
             _logger = logger;
             _messageFinder = messageFinder;
@@ -29,6 +32,7 @@ namespace Messages.API.Controllers
             _chatFinder = chatFinder;
             _chatRepository = chatRepository;
             _mapper = mapper;
+            _chatHub = chatHub;
         }
 
         [HttpPost("new-message")]
@@ -66,6 +70,7 @@ namespace Messages.API.Controllers
                     UserId = newMessageRequest.FromUserId
                 };
                 await _messageRepository.CreateAsync(newMessage, cancellationToken);
+                await _chatHub.Clients.All.SendAsync("Notify", "update chats", cancellationToken);
                 return Ok();
             }
             catch (Exception e)

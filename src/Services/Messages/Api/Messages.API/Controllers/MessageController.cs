@@ -70,7 +70,9 @@ namespace Messages.API.Controllers
                     UserId = newMessageRequest.FromUserId
                 };
                 await _messageRepository.CreateAsync(newMessage, cancellationToken);
-                await _chatHub.Clients.All.SendAsync("Notify", "update chats", cancellationToken);
+                await _chatHub.Clients.All.SendAsync("Notify", newMessageRequest.FromUserId, cancellationToken);
+                await _chatHub.Clients.All.SendAsync("Notify", newMessageRequest.ToUserId, cancellationToken);
+
                 return Ok();
             }
             catch (Exception e)

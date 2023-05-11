@@ -24,7 +24,14 @@ namespace Messages.API.Controllers
         private readonly IMapper _mapper;
         private readonly IHubContext<ChatHub> _chatHub;
 
-        public MessageController(ILogger<MessageController> logger, IMessageFinder messageFinder, IMessageRepository messageRepository, IChatFinder chatFinder, IChatRepository chatRepository, IMapper mapper, IHubContext<ChatHub> chatHub)
+        public MessageController(
+            ILogger<MessageController> logger, 
+            IMessageFinder messageFinder, 
+            IMessageRepository messageRepository, 
+            IChatFinder chatFinder, 
+            IChatRepository chatRepository, 
+            IMapper mapper, 
+            IHubContext<ChatHub> chatHub)
         {
             _logger = logger;
             _messageFinder = messageFinder;

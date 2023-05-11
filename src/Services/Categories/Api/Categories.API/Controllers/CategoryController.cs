@@ -29,7 +29,7 @@ namespace Categories.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetCategoryResponse>>> GetAllAsync(CancellationToken token = default)
+        public async Task<IActionResult> GetAllAsync(CancellationToken token = default)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Categories.API.Controllers
         }
 
         [HttpGet("pagination")]
-        public async Task<ActionResult<GetPaginationResponse<GetCategoryResponse>>> GetAllPaginationAsync(
+        public async Task<IActionResult> GetAllPaginationAsync(
             [FromQuery][BindRequired][Required] int pageNumber,
             [FromQuery][BindRequired][Required] int pageSize, 
             CancellationToken token = default)

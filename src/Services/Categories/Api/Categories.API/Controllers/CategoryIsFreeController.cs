@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
+using Categories.BLL.Contracts.UnitOfWork;
 
 namespace Categories.API.Controllers
 {
@@ -10,12 +11,13 @@ namespace Categories.API.Controllers
     public class CategoryIsFreeController : ControllerBase
     {
         private readonly ILogger<CategoryIsFreeController> _logger;
-        private readonly ICategoryFinder _categoryFinder;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryIsFreeController(ILogger<CategoryIsFreeController> logger, ICategoryFinder categoryFinder)
+
+        public CategoryIsFreeController(ILogger<CategoryIsFreeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
-            _categoryFinder = categoryFinder;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace Categories.API.Controllers
         {
             try
             {
-                var isFree = await _categoryFinder.NameIsFreeAsync(categoryName, token);
+                var isFree = await _unitOfWork.CategoryFinder.NameIsFreeAsync(categoryName, token);
                 return Ok(new
                 {
                     is_free = isFree
